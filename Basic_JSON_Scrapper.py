@@ -3,9 +3,11 @@ import re
 import time
 import requests
 
+'''
 with urllib.request.urlopen("https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&certified&sortBy=release&type=dvd-streaming-all") as url:
     data = json.loads(url.read().decode())
     print(data)
+'''
 
 def run(url):
     pageNum=467
@@ -24,6 +26,7 @@ def run(url):
                 print('failed attept',ii)
                 time.sleep(2)
         fw.write(str(data)+'\t'+'Page'+str(i)+'\n')
+        print('Done')
     fw.close()
 
 if __name__=='__main__':
