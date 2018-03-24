@@ -71,12 +71,20 @@ def run2():
     # print(urls_ls[0])
     for x in urls_ls:
         print(x[25:])
-        fw = open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_Movie_Page_Sources/' + x[25:] + '.txt', 'w')
-        page = urllib.request.urlopen('https://' + x)
-        pagetext = page.read()
-        fw.write(str(pagetext))
-        fw.close()
-        print('Done' + '\n')
+        page = None
+        for i in range(5):
+            try:
+                fw = open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_Movie_Page_Sources/' + x[25:] + '.txt', 'w')
+                page = urllib.request.urlopen('https://' + x)
+                pagetext = page.read()
+                fw.write(str(pagetext))
+                fw.close()
+                print('Done' + '\n')
+                break
+            except Exception as e:
+                print('Failed attept',i)
+                time.sleep(2)
+        if not page: continue
         # time.sleep(1)
     return
 
