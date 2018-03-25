@@ -60,10 +60,11 @@ if __name__=='__main__':
 
 # Collect main pages for each movie on the URL list
 def run2():
-    import urllib.request, json
+    import urllib.request
     import re
     import time
     import requests
+    from colorama import Fore, Back
     with open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
         urls = myfile.read()
     # print(urls[:300])
@@ -82,10 +83,13 @@ def run2():
                 print('Done' + '\n')
                 break
             except Exception as e:
-                print('Failed attept',i)
+                print(Fore.RED + 'Failed attept', i + 1)
+                print(Style.RESET_ALL)
                 time.sleep(2)
-        if not page: continue
-        # time.sleep(1)
+        if not page:
+            print(Fore.RED + Back.BLACK + 'FAILED' + ' ' + x[25:])
+            print(Style.RESET_ALL)
+            continue
     return
 
 run2()
