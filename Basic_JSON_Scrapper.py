@@ -83,7 +83,7 @@ def run2():
                 print('Done' + '\n')
                 break
             except Exception as e:
-                print(Fore.RED + 'Failed attept' + i + 1 + '\n')
+                print(Fore.RED + 'Failed attept' + i+1 + '\n')
                 print(Style.RESET_ALL)
                 time.sleep(2)
         if not page:
