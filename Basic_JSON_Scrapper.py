@@ -11,7 +11,7 @@ def run(url):
     import time
     import requests
     pageNum = 467
-    fw = open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_JSON.txt', 'w')
+    fw = open('D:/RT/RT_DVD_Streaming_All_JSON.txt', 'w')
     for i in range(1, pageNum + 1):
         print('page', i)
         if i == 1:
@@ -35,17 +35,17 @@ if __name__ == '__main__':
     run(url)
 
 
-# Find following urls in data_str
+# Find all of the urls in data_str
 # Attempt 2:
 def run1():
     import re
-    with open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_JSON.txt', 'r') as myfile:
+    with open('D:/RT/RT_DVD_Streaming_All_JSON.txt', 'r') as myfile:
         data = myfile.read().replace('\n', '')
     # print(data)
     data_str = str(data)
     url_location = [m.start() for m in re.finditer("'url':", data_str)]
     # print(url_location)
-    fw = open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_URLs.txt', 'w')
+    fw = open('D:/RT/RT_DVD_Streaming_All_URLs.txt', 'w')
     for x in url_location:
         url_start = x
         url_end = data_str.find(',', url_start)
@@ -60,11 +60,12 @@ if __name__=='__main__':
 
 # Collect main pages for each movie on the URL list
 def run2():
-    import urllib.request, json
+    import urllib.request
     import re
     import time
     import requests
-    with open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
+    from colorama import Fore, Back, Style
+    with open('D:/RT/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
         urls = myfile.read()
     # print(urls[:300])
     urls_ls = urls.split('\n')
@@ -74,7 +75,7 @@ def run2():
         page = None
         for i in range(5):
             try:
-                fw = open('C:/Users/calvi/Dropbox/Desktop/RT_DVD_Streaming_All_Movie_Page_Sources/' + x[25:] + '.txt', 'w')
+                fw = open('D:/RT/RT_DVD_Streaming_All_Movie_Page_Sources/' + x[25:] + '.txt', 'w')
                 page = urllib.request.urlopen('https://' + x)
                 pagetext = page.read()
                 fw.write(str(pagetext))
@@ -82,10 +83,13 @@ def run2():
                 print('Done' + '\n')
                 break
             except Exception as e:
-                print('Failed attept',i)
+                print(Fore.RED + 'Failed attept' + i+1 + '\n')
+                print(Style.RESET_ALL)
                 time.sleep(2)
-        if not page: continue
-        # time.sleep(1)
+        if not page:
+            print(Fore.RED + Back.BLACK + 'FAILED' + ' ' + x[25:] + '\n')
+            print(Style.RESET_ALL)
+            continue
     return
 
 run2()
