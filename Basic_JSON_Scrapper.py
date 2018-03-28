@@ -80,16 +80,17 @@ def run2():
                 pagetext = page.read()
                 fw.write(str(pagetext))
                 fw.close()
-                print('Done' + '\n')
+                print(Fore.GREEN + 'Done' + '\n')
+                Style.RESET_ALL
                 break
             except Exception as e:
-                print(Fore.RED + 'Failed attept' + i+1 + '\n')
-                print(Style.RESET_ALL)
+                print(Fore.RED + 'Failed attept ' + str(i+1) + '\n')
+                Style.RESET_ALL
                 time.sleep(2)
         if not page:
-            print(Fore.RED + Back.BLACK + 'FAILED' + ' ' + x[25:] + '\n')
-            print(Style.RESET_ALL)
+            print('FAILED ' + x[25:] + '\n')
             continue
     return
 
 run2()
+
