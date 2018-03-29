@@ -80,15 +80,16 @@ def run2():
                 pagetext = page.read()
                 fw.write(str(pagetext))
                 fw.close()
-                print(Fore.GREEN + 'Done' + '\n')
-                Style.RESET_ALL
+                print(Fore.GREEN + 'Done')
+                print(Style.RESET_ALL)
                 break
             except Exception as e:
-                print(Fore.RED + 'Failed attept ' + str(i+1) + '\n')
-                Style.RESET_ALL
-                time.sleep(2)
+                print(Fore.YELLOW + 'Failed attept ' + str(i+1))
+                print(Style.RESET_ALL)
+                time.sleep(0.5)
         if not page:
-            print('FAILED ' + x[25:] + '\n')
+            print(Fore.RED + 'FAILED: ' + x[25:])
+            print(Style.RESET_ALL)
             continue
     return
 
@@ -106,13 +107,24 @@ for x in os.listdir(os.getcwd()):
 import os
 HTML_ALL_ls = []
 HTML_ALL_ls_name = []
-for x in os.listdir('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources'):
-    try:
-        fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources/' + x, 'r')
-        HTML_ALL_ls.append(fh.read())
-        HTML_ALL_ls_name.append(x)
-    except:
-        print('Bad file: ' + x)
-        continue
-print(HTML_ALL_ls_name)
+for x in os.listdir('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources/'):
+	try:
+		fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources/' + x, 'r')
+		HTML_ALL_ls.append(fh.read())
+		HTML_ALL_ls_name.append(x)
+	except:
+		print('Bad file: ' + x)
+		continue
+# print(HTML_ALL_ls_name)
+
+
+def run3():
+	import re
+	a = -1
+	for x in HTML_ALL_ls:
+		a = a + 1
+		print(str(a), [m.start() for m in re.finditer("meter-value", x)])
+	return
+
+run3()
 
