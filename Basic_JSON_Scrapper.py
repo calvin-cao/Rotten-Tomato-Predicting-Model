@@ -68,7 +68,7 @@ def run4():
     urls_ls = urls.split('\n')
     for x in urls_ls:
         print(x[25:])
-        page = None
+        p = None
         for i in range(5):
             try:
                 fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
@@ -91,6 +91,7 @@ def run4():
 run4()
 
 # Collect main pages for each movie on the URL list (.txt)
+"""
 def run2():
     import urllib.request
     import re
@@ -126,6 +127,7 @@ def run2():
     return
 
 run2()
+"""
 
 # Loop through every file in one folder:
 '''
