@@ -1,3 +1,4 @@
+"""
 def run2():
 	import urllib.request
 	import re
@@ -23,15 +24,47 @@ def run2():
 				print(Style.RESET_ALL)
 				break
 			except Exception as e:
-				print(Fore.RED + 'Failed attept ' + str(i+1))
+				print(Fore.YELLOW + 'Failed attept ' + str(i+1))
 				print(Style.RESET_ALL)
 				time.sleep(2)
 		if not page:
-			print(Fore.RED + 'FAILED ' + x[25:])
+			print(Fore.RED + 'FAILED: ' + x[25:])
+			print(Style.RESET_ALL)
+			continue
+	return
+"""
+
+# Collect main pages for each movie on the URL list (.html)
+def run4():
+	import time
+	import requests
+	from colorama import Fore, Back, Style
+	with open('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
+		urls = myfile.read()
+	urls_ls = urls.split('\n')
+	for x in urls_ls:
+		print(x[25:])
+		p = None
+		for i in range(5):
+			try:
+				fh = open('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
+				p = requests.get('https://' + x)
+				fh.write(p.text)
+				fh.close()
+				print(Fore.GREEN + 'Done')
+				print(Style.RESET_ALL)
+				break
+			except Exception as e:
+				print(Fore.YELLOW + 'Failed attept: ' + str(i+1))
+				print(Style.RESET_ALL)
+				time.sleep(0.5)
+		if not p:
+			print(Fore.RED + 'FAILED: ' + x[25:])
 			print(Style.RESET_ALL)
 			continue
 	return
 
+run4()
 
 # Get all HTML into one list as strings
 import os
@@ -45,7 +78,7 @@ for x in os.listdir('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_S
 	except:
 		print('Bad file: ' + x)
 		continue
-print(HTML_ALL_ls_name)
+# print(HTML_ALL_ls_name)
 
 
 def run3():
@@ -55,5 +88,6 @@ def run3():
 		a = a + 1
 		print(str(a), [m.start() for m in re.finditer("meter-value", x)])
 	return
+
 run3()
 
