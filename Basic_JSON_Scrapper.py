@@ -11,7 +11,7 @@ def run(url):
     import time
     import requests
     pageNum = 467
-    fw = open('D:/RT/RT_DVD_Streaming_All_JSON.txt', 'w')
+    fw = open('C:/Local/RT/RT_DVD_Streaming_All_JSON.txt', 'w')
     for i in range(1, pageNum + 1):
         print('page', i)
         if i == 1:
@@ -39,13 +39,13 @@ if __name__ == '__main__':
 # Attempt 2:
 def run1():
     import re
-    with open('D:/RT/RT_DVD_Streaming_All_JSON.txt', 'r') as myfile:
+    with open('C:/Local/RT/RT_DVD_Streaming_All_JSON.txt', 'r') as myfile:
         data = myfile.read().replace('\n', '')
     # print(data)
     data_str = str(data)
     url_location = [m.start() for m in re.finditer("'url':", data_str)]
     # print(url_location)
-    fw = open('D:/RT/RT_DVD_Streaming_All_URLs.txt', 'w')
+    fw = open('C:/Local/RT/RT_DVD_Streaming_All_URLs.txt', 'w')
     for x in url_location:
         url_start = x
         url_end = data_str.find(',', url_start)
@@ -58,14 +58,46 @@ def run1():
 if __name__=='__main__':
     run1()
 
-# Collect main pages for each movie on the URL list
+# Collect main pages for each movie on the URL list (.html)
+def run4():
+    import time
+    import requests
+    from colorama import Fore, Back, Style
+    with open('C:/Local/RT/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
+        urls = myfile.read()
+    urls_ls = urls.split('\n')
+    for x in urls_ls:
+        print(x[25:])
+        page = None
+        for i in range(5):
+            try:
+                fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
+                p = requests.get('https://' + x)
+                fh.write(p.text)
+                fh.close()
+                print(Fore.GREEN + 'Done')
+                print(Style.RESET_ALL)
+                break
+            except Exception as e:
+                print(Fore.YELLOW + 'Failed attept: ' + str(i+1))
+                print(Style.RESET_ALL)
+                time.sleep(0.5)
+        if not p:
+            print(Fore.RED + 'FAILED: ' + x[25:])
+            print(Style.RESET_ALL)
+            continue
+    return
+
+run4()
+
+# Collect main pages for each movie on the URL list (.txt)
 def run2():
     import urllib.request
     import re
     import time
     import requests
     from colorama import Fore, Back, Style
-    with open('D:/RT/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
+    with open('C:/Local/RT/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
         urls = myfile.read()
     # print(urls[:300])
     urls_ls = urls.split('\n')
@@ -75,22 +107,56 @@ def run2():
         page = None
         for i in range(5):
             try:
-                fw = open('D:/RT/RT_DVD_Streaming_All_Movie_Page_Sources/' + x[25:] + '.txt', 'w')
+                fw = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_Text/' + x[25:] + '.txt', 'w')
                 page = urllib.request.urlopen('https://' + x)
                 pagetext = page.read()
                 fw.write(str(pagetext))
                 fw.close()
-                print(Fore.GREEN + 'Done' + '\n')
-                Style.RESET_ALL
+                print(Fore.GREEN + 'Done')
+                print(Style.RESET_ALL)
                 break
             except Exception as e:
-                print(Fore.RED + 'Failed attept ' + str(i+1) + '\n')
-                Style.RESET_ALL
-                time.sleep(2)
+                print(Fore.YELLOW + 'Failed attept ' + str(i+1))
+                print(Style.RESET_ALL)
+                time.sleep(0.5)
         if not page:
-            print('FAILED ' + x[25:] + '\n')
+            print(Fore.RED + 'FAILED: ' + x[25:])
+            print(Style.RESET_ALL)
             continue
     return
 
 run2()
+
+# Loop through every file in one folder:
+'''
+import os
+for x in os.listdir(os.getcwd()):
+    # do your thing
+    break
+'''
+
+# Get all HTML codes into one list as strings
+import os
+HTML_ALL_ls = []
+HTML_ALL_ls_name = []
+for x in os.listdir('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources/'):
+	try:
+		fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources/' + x, 'r')
+		HTML_ALL_ls.append(fh.read())
+		HTML_ALL_ls_name.append(x)
+	except:
+		print('Bad file: ' + x)
+		continue
+# print(HTML_ALL_ls_name)
+
+
+def run3():
+	import re
+	a = -1
+	for x in HTML_ALL_ls:
+		a = a + 1
+		print(str(a), [m.start() for m in re.finditer("meter-value", x)])
+	return
+
+run3()
 
