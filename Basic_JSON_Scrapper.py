@@ -67,22 +67,46 @@ def run4():
         urls = myfile.read()
     urls_ls = urls.split('\n')
     for x in urls_ls:
-        print(x[25:])
-        p = None
+        print(x[25:] + ':' + '\n')
         for i in range(5):
+            page = None
+            pagetext = None
+            try:
+                page = requests.get('https://' + x)
+                if not page:
+                    print(Fore.YELLOW + 'Page request error: ' + str(i+1))
+                    print(Style.RESET_ALL)
+                    time.sleep(2)
+                    continue
+                pagetext = page.text
+                if not pagetext:
+                    print((Fore.YELLOW + 'Page decode error: ' + str(i+1)))
+                    print(Style.RESET_ALL)
+                    time.sleep(0.5)
+                    continue
+                print(Fore.GREEN + 'Good page response')
+                print(Style.RESET_ALL)
+            except:
+                print(Fore.YELLOW + 'Failed page acquisition: ' + str(i+1))
+                print(Style.RESET_ALL)
+                time.sleep(1)
+                continue
             try:
                 fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
-                p = requests.get('https://' + x)
-                fh.write(p.text)
+                fh.write(pagetext)
                 fh.close()
-                print(Fore.GREEN + 'Done')
+                print(Fore.GREEN + 'Good file')
                 print(Style.RESET_ALL)
-                break
-            except Exception as e:
-                print(Fore.YELLOW + 'Failed attept: ' + str(i+1))
+            except:
+                print(Fore.YELLOW + 'Failed file writing: ' + str(i+1))
                 print(Style.RESET_ALL)
-                time.sleep(0.5)
-        if not p:
+                time.sleep(2)
+                continue
+            print(Fore.GREEN + 'Done')
+            print(Style.RESET_ALL)
+            time.sleep(0.1)
+            break
+        if not pagetext:
             print(Fore.RED + 'FAILED: ' + x[25:])
             print(Style.RESET_ALL)
             continue
