@@ -71,34 +71,47 @@ def run4():
         for i in range(5):
             page = None
             pagetext = None
+            fh = None
+            print(Fore.BLUE + 'Attempt ' + str(i+1))
             try:
                 page = requests.get('https://' + x)
                 if not page:
-                    print(Fore.YELLOW + 'Page request error: ' + str(i+1))
+                    print(Fore.YELLOW + 'Page request error')
                     print(Style.RESET_ALL)
                     time.sleep(2)
                     continue
                 pagetext = page.text
                 if not pagetext:
-                    print((Fore.YELLOW + 'Page decode error: ' + str(i+1)))
+                    print((Fore.YELLOW + 'Page decode error'))
                     print(Style.RESET_ALL)
                     time.sleep(0.5)
                     continue
                 print(Fore.GREEN + 'Good page response')
                 print(Style.RESET_ALL)
             except:
-                print(Fore.YELLOW + 'Failed page acquisition: ' + str(i+1))
+                print(Fore.YELLOW + 'Failed page acquisition')
                 print(Style.RESET_ALL)
                 time.sleep(1)
                 continue
             try:
                 fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
+                if not fh:
+                    print(Fore.YELLOW + 'File handle assignment error')
+                    print(Style.RESET_ALL)
+                    time.sleep(0.5)
+                    continue
+            except:
+                print(Fore.YELLOW + 'File handle error')
+                print(Style.RESET_ALL)
+                time.sleep(0.5)
+                continue
+            try:
                 fh.write(pagetext)
                 fh.close()
                 print(Fore.GREEN + 'Good file')
                 print(Style.RESET_ALL)
             except:
-                print(Fore.YELLOW + 'Failed file writing: ' + str(i+1))
+                print(Fore.YELLOW + 'File writing error')
                 print(Style.RESET_ALL)
                 time.sleep(2)
                 continue
