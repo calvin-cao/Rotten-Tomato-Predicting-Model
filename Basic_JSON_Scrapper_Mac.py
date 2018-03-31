@@ -35,6 +35,7 @@ def run2():
 """
 
 # Collect main pages for each movie on the URL list (.html)
+"""
 def run4():
 	import time
 	import requests
@@ -67,6 +68,90 @@ def run4():
 	return
 
 run4()
+"""
+
+def run5():
+	import os
+	import time
+	import requests
+	from colorama import Fore, Back, Style
+	with open('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
+		urls = myfile.read()
+	urls_ls = urls.split('\n')
+	c = 0
+	failed_ls = []
+	for x in urls_ls:
+		c = c + 1
+		print(str(c) + '. ' + x[25:] + ':')
+		for i in range(5):
+			page = None
+			pagetext = None
+			fh = None
+			print(Fore.BLUE + 'Attempt ' + str(i+1) + ':')
+			print(Style.RESET_ALL)
+			try:
+				page = requests.get('https://' + x)
+				if not page:
+					print(Fore.LIGHTYELLOW_EX + '  Page request error')
+					print(Style.RESET_ALL)
+					time.sleep(2)
+					continue
+				pagetext = page.text
+				if not pagetext:
+					print((Fore.LIGHTYELLOW_EX + '  Page decode error'))
+					print(Style.RESET_ALL)
+					time.sleep(0.5)
+					continue
+				print(Fore.GREEN + '  Good page response')
+				print(Style.RESET_ALL)
+			except:
+				print(Fore.LIGHTYELLOW_EX + '  Failed page acquisition')
+				print(Style.RESET_ALL)
+				time.sleep(1)
+				continue
+			try:
+				fh = open('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
+				if not fh:
+					print(Fore.LIGHTYELLOW_EX + '  File handle assignment error')
+					print(Style.RESET_ALL)
+					time.sleep(0.5)
+					continue
+			except:
+				print(Fore.LIGHTYELLOW_EX + '  File handle error')
+				print(Style.RESET_ALL)
+				time.sleep(0.5)
+				continue
+			try:
+				fh.write(pagetext)
+				fh.close()
+				print(Fore.GREEN + '  Good file')
+				print(Style.RESET_ALL)
+			except:
+				fh.close()
+				print(Fore.LIGHTYELLOW_EX + '  File writing error')
+				print(Style.RESET_ALL)
+				if os.path.exists('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+					os.remove('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html')
+					time.sleep(1)
+					continue
+				else:
+					time.sleep(1)
+					continue
+			print(Fore.LIGHTGREEN_EX + '  Done')
+			print(Style.RESET_ALL)
+			time.sleep(0.1)
+			break
+		if not os.path.exists('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+			failed_ls.append(x)
+			print(Fore.LIGHTRED_EX + '  FAILED: ' + x[25:])
+			print(Style.RESET_ALL)
+			continue
+	fa = open('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/Failed_list.txt', 'w')
+	for n in failed_ls:
+		fa.write(str(n) + '\n')
+	return
+
+run5()
 
 # Get all HTML into one list as strings
 import os
