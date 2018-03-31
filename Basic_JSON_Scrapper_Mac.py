@@ -44,21 +44,23 @@ def run4():
 	urls_ls = urls.split('\n')
 	for x in urls_ls:
 		print(x[25:])
-		p = None
 		for i in range(5):
 			try:
+				page = None
+				pagetext = None
 				fh = open('/Users/CalvinCao/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
-				p = requests.get('https://' + x)
-				fh.write(p.text)
+				page = requests.get('https://' + x)
+				pagetext = page.text
+				fh.write(pagetext)
 				fh.close()
 				print(Fore.GREEN + 'Done')
 				print(Style.RESET_ALL)
 				break
-			except Exception as e:
+			except:
 				print(Fore.YELLOW + 'Failed attept: ' + str(i+1))
 				print(Style.RESET_ALL)
-				time.sleep(0.5)
-		if not p:
+				time.sleep(5)
+		if not pagetext:
 			print(Fore.RED + 'FAILED: ' + x[25:])
 			print(Style.RESET_ALL)
 			continue
