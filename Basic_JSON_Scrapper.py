@@ -4,7 +4,7 @@ with urllib.request.urlopen("https://www.rottentomatoes.com/api/private/v2.0/bro
     print(data)
 '''
 
-# Below is the basic scrapper which can obtain and save all pages of the DVD-Streaming-All section from Rottentomatoes.com as one text file.
+### Step 1: Below is the basic scrapper which can obtain and save all pages of the DVD-Streaming-All section from Rottentomatoes.com as one text file. ###
 """
 def run(url):
     import urllib.request, json
@@ -57,6 +57,7 @@ def run5(url,filename,pagenumber):
     fw.close()
     return
 
+# Gen1_6
 run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=1&certified&sortBy=release&type=dvd-streaming-all','Action',97)
 
 run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=2&certified&sortBy=release&type=dvd-streaming-all','Animation',16)
@@ -69,7 +70,21 @@ run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPo
 
 run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=8&certified&sortBy=release&type=dvd-streaming-all','Documentary',54)
 
+# Gen7_12
+run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=9&certified&sortBy=release&type=dvd-streaming-all','Drama',258)
 
+run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=10&certified&sortBy=release&type=dvd-streaming-all','Horror',53)
+
+run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=11&certified&sortBy=release&type=dvd-streaming-all','Kids&Family',31)
+
+run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=13&certified&sortBy=release&type=dvd-streaming-all','Mystery',95)
+
+run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=18&certified&sortBy=release&type=dvd-streaming-all','Romance',54)
+
+run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=14&certified&sortBy=release&type=dvd-streaming-all','Scifi&Fantasy',50)
+
+
+### Step 2: Get all urls from JSON files and store in a .txt file ###
 """
 # Find all of the urls in data_str
 # Attempt 2:
@@ -114,15 +129,23 @@ def run6(filename):
     fw.close()
     return
 
+# Gen1_6
 run6('Action')
 run6('Animation')
 run6('Art&Foreign')
 run6('Classics')
 run6('Comedy')
 run6('Documentary')
+# Gen7-12
+run6('Drama')
+run6('Horror')
+run6('Kids&Family')
+run6('Mystery')
+run6('Romance')
+run6('Scifi&Fantasy')
 
 def run7():
-    a = ['Action','Animation','Art&Foreign','Classics','Comedy','Documentary']
+    a = ['Action','Animation','Art&Foreign','Classics','Comedy','Documentary','Drama','Horror','Kids&Family','Mystery','Romance','Scifi&Fantasy']
     all_url_ls = []
     urls_ls = []
     for i in a:
@@ -143,7 +166,7 @@ def run7():
 run7()
 
 
-# Collect main pages for each movie on the URL list (.html)
+### Step 3: Collect main pages for each movie on the URL list (.html) ###
 def run4(file):
     import os
     import time
