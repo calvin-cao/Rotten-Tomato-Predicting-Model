@@ -97,21 +97,22 @@ def run3():
 				all_url_ls.append(str(x))
 			else:
 				continue
-	fh = open('/Users/CalvinCao/Local/RT/RT_URLs_All_Gen1_12.txt','w')
-	for x in all_url_ls:
-		fh.write(str(x) + '\n')
-	fh.close()
+	r = 0
+	for x in range(0,len(all_url_ls),1500):
+		r += 1
+		fh = open('/Users/CalvinCao/Local/RT/RT_All_URLs_Gen1_12_Part_' + str(r) + '.txt','w')
+		for s in all_url_ls[x : x + 1499]:
+			fh.write(str(s) + '\n')
+		fh.close()
 	return
 
-run3()
-
 ### Step 3: Collect main pages for each movie on the URL list (.html) ###
-def run4(file):
+def run4(partx):
 	import os
 	import time
 	import requests
 	from colorama import Fore, Back, Style
-	with open('/Users/CalvinCao/Local/RT/RT_URLs_' + file + '.txt', 'r') as myfile:
+	with open('/Users/CalvinCao/Local/RT/RT_All_URLs_Gen1_12_Part_' + str(partx) + '.txt', 'r') as myfile:
 		urls = myfile.read()
 	urls_ls = urls.split('\n')
 	c = 0
@@ -146,7 +147,7 @@ def run4(file):
 				time.sleep(1)
 				continue
 			try:
-				fh = open('/Users/CalvinCao/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
+				fh = open('/Users/CalvinCao/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
 				if not fh:
 					print(Fore.LIGHTYELLOW_EX + '  File handle assignment error')
 					print(Style.RESET_ALL)
@@ -166,8 +167,8 @@ def run4(file):
 				fh.close()
 				print(Fore.LIGHTYELLOW_EX + '  File writing error')
 				print(Style.RESET_ALL)
-				if os.path.exists('/Users/CalvinCao/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
-					os.remove('/Users/CalvinCao/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html')
+				if os.path.exists('/Users/CalvinCao/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+					os.remove('/Users/CalvinCao/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html')
 					time.sleep(1)
 					continue
 				else:
@@ -177,17 +178,26 @@ def run4(file):
 			print(Style.RESET_ALL)
 			time.sleep(0.1)
 			break
-		if not os.path.exists('/Users/CalvinCao/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+		if not os.path.exists('/Users/CalvinCao/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
 			failed_ls.append(x)
 			print(Fore.LIGHTRED_EX + 'FAILED: ' + x[25:])
 			print(Style.RESET_ALL)
 			continue
-	fa = open('/Users/CalvinCao/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/Failed_list.txt', 'w')
+	fa = open('/Users/CalvinCao/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/Failed_list_Part_' + str(partx) + '.txt', 'w')
 	for n in failed_ls:
 		fa.write(str(n) + '\n')
 	return
 
-run4('All_Gen1_12')
+run4(1)
+run4(2)
+run4(3)
+run4(4)
+run4(5)
+run4(6)
+run4(7)
+run4(8)
+run4(9)
+run4(10)
 
 """
 def run5():
