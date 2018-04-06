@@ -157,7 +157,7 @@ def run7():
                 all_url_ls.append(str(x))
             else:
                 continue
-    fh = open('C:/Local/RT/RT_Gen1_6_URLs.txt','w')
+    fh = open('C:/Local/RT/RT_Gen1_12_URLs.txt','w')
     for x in all_url_ls:
         fh.write(str(x) + '\n')
     fh.close()
