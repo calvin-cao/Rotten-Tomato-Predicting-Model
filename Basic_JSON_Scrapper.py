@@ -5,6 +5,7 @@ with urllib.request.urlopen("https://www.rottentomatoes.com/api/private/v2.0/bro
 '''
 
 # Below is the basic scrapper which can obtain and save all pages of the DVD-Streaming-All section from Rottentomatoes.com as one text file.
+"""
 def run(url):
     import urllib.request, json
     import re
@@ -29,6 +30,7 @@ def run(url):
         print('Done')
     fw.close()
     return
+"""
 
 def run5(url,filename,pagenumber):
     import urllib.request, json
@@ -68,6 +70,7 @@ run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPo
 run5('https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=8&certified&sortBy=release&type=dvd-streaming-all','Documentary',54)
 
 
+"""
 # Find all of the urls in data_str
 # Attempt 2:
 def run1():
@@ -90,6 +93,7 @@ def run1():
 
 if __name__=='__main__':
     run1()
+"""
 
 # Attempt 3:
 def run6(filename):
