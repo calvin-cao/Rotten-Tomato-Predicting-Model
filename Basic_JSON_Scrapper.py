@@ -248,7 +248,7 @@ def run4(file):
         fa.write(str(n) + '\n')
     return
 
-run4('Gen1_6')
+run4('Gen1_12')
 
 # Collect main pages for each movie on the URL list (.txt)
 """
