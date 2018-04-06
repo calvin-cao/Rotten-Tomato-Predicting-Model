@@ -121,13 +121,35 @@ run6('Classics')
 run6('Comedy')
 run6('Documentary')
 
+def run7():
+    a = ['Action','Animation','Art&Foreign','Classics','Comedy','Documentary']
+    all_url_ls = []
+    urls_ls = []
+    for i in a:
+        with open('C:/Local/RT/RT_' + str(i) + '_URLs.txt', 'r') as myfile:
+            urls = myfile.read()
+        urls_ls = urls.split('\n')
+        for x in urls_ls:
+            if not str(x) in all_url_ls:
+                all_url_ls.append(str(x))
+            else:
+                continue
+    fh = open('C:/Local/RT/RT_Gen1_6_URLs.txt','w')
+    for x in all_url_ls:
+        fh.write(str(x) + '\n')
+    fh.close()
+    return
+
+run7()
+
+
 # Collect main pages for each movie on the URL list (.html)
-def run4():
+def run4(file):
     import os
     import time
     import requests
     from colorama import Fore, Back, Style
-    with open('C:/Local/RT/RT_DVD_Streaming_All_URLs.txt', 'r') as myfile:
+    with open('C:/Local/RT/RT_' + file + '_URLs.txt', 'r') as myfile:
         urls = myfile.read()
     urls_ls = urls.split('\n')
     c = 0
@@ -162,7 +184,7 @@ def run4():
                 time.sleep(1)
                 continue
             try:
-                fh = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
+                fh = open('C:/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
                 if not fh:
                     print(Fore.LIGHTYELLOW_EX + '  File handle assignment error')
                     print(Style.RESET_ALL)
@@ -182,8 +204,8 @@ def run4():
                 fh.close()
                 print(Fore.LIGHTYELLOW_EX + '  File writing error')
                 print(Style.RESET_ALL)
-                if os.path.exists('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
-                    os.remove('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html')
+                if os.path.exists('C:/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+                    os.remove('C:/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html')
                     time.sleep(1)
                     continue
                 else:
@@ -193,17 +215,17 @@ def run4():
             print(Style.RESET_ALL)
             time.sleep(0.1)
             break
-        if not os.path.exists('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+        if not os.path.exists('C:/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
             failed_ls.append(x)
             print(Fore.LIGHTRED_EX + 'FAILED: ' + x[25:])
             print(Style.RESET_ALL)
             continue
-    fa = open('C:/Local/RT/RT_DVD_Streaming_All_Movie_Page_Sources_HTML/Failed_list.txt', 'w')
+    fa = open('C:/Local/RT/RT_' + file + '_Movie_Page_Sources_HTML/Failed_list.txt', 'w')
     for n in failed_ls:
         fa.write(str(n) + '\n')
     return
 
-run4()
+run4('Gen1_6')
 
 # Collect main pages for each movie on the URL list (.txt)
 """
