@@ -98,10 +98,10 @@ def run3():
 			else:
 				continue
 	r = 0
-	for x in range(0,len(all_url_ls),1500):
+	for x in range(0,len(all_url_ls),600):
 		r += 1
 		fh = open('/Users/CalvinCao/Local/RT/RT_All_URLs_Gen1_12_Part_' + str(r) + '.txt','w')
-		for s in all_url_ls[x : x + 1499]:
+		for s in all_url_ls[x : x + 600]:
 			fh.write(str(s) + '\n')
 		fh.close()
 	return
@@ -188,16 +188,11 @@ def run4(partx):
 		fa.write(str(n) + '\n')
 	return
 
-run4(1)
-run4(2)
-run4(3)
-run4(4)
-run4(5)
-run4(6)
-run4(7)
-run4(8)
-run4(9)
-run4(10)
+import multiprocessing
+
+for i in range(1,26):
+	p = multiprocessing.Process(target = run4, args = (str(i),))
+	p.start()
 
 """
 def run5():
