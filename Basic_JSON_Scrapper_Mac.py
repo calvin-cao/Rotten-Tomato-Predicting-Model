@@ -106,6 +106,8 @@ def run3():
 		fh.close()
 	return
 
+run3()
+
 ### Step 3: Collect main pages for each movie on the URL list (.html) ###
 def run4(partx):
 	import os
@@ -193,6 +195,7 @@ import multiprocessing
 for i in range(1,26):
 	p = multiprocessing.Process(target = run4, args = (str(i),))
 	p.start()
+	# p.close()
 
 """
 def run5():
