@@ -58,13 +58,12 @@ P = [97, 16, 69, 47, 156, 54, 258, 53, 31, 95, 54, 50]
 MNG = Manager()
 A = MNG.list()
 Processes = []
-if __name__ == '__main__':
-	for i in range(10):
-		p = Process(target = run1, args = (U[i],N[i],P[i]))
-		Processes.append(p)
-		p.start()
-	for p in Processes:
-		p.join()
+for i in range(10):
+	p = Process(target = run1, args = (U[i],N[i],P[i]))
+	Processes.append(p)
+	p.start()
+for p in Processes:
+	p.join()
 
 print('List length: ' + str(len(A)) + '\n')
 time.sleep(2)
@@ -179,14 +178,13 @@ def run4(partx):
 if not os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/'):
 	os.makedirs(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/')
 P1 = []
-if __name__ == '__main__':
-	for i in range(1,26):
-		p2 = Process(target = run4, args = (str(i),))
-		P1.append(p2)
-		p2.start()
-	for p in P1:
-			p.join()
-	# p.close()
+for i in range(1,26):
+	p2 = Process(target = run4, args = (str(i),))
+	P1.append(p2)
+	p2.start()
+for p in P1:
+		p.join()
+# p.close()
 
 print(Fore.LIGHTGREEN_EX + 'Process finished')
 exit()
