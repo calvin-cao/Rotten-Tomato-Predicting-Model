@@ -4,11 +4,19 @@ import time
 import requests
 import os
 from colorama import Fore, Back, Style
-import multiprocessing
-from multiprocessing import Process
-from multiprocessing import Manager
+from multiprocessing import Process, Manager
 
+PATH = input('Enter desired file path: ')
+# /Users/CalvinCao/Desktop
 
+if not os.path.exists(PATH + '/RT/'):
+	os.makedirs(PATH + '/RT/')
+time.sleep(1)
+print(Fore.LIGHTGREEN_EX + 'Starting Step 1')
+print(Style.RESET_ALL)
+time.sleep(1)
+
+### Step 1:  ###
 def run1(url,filename,pagenumber):
 	pageNum = int(pagenumber)
 	for i in range(1, pageNum + 1):
@@ -40,6 +48,53 @@ def run1(url,filename,pagenumber):
 		print(Style.RESET_ALL)
 	return
 
+U = ['https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=1&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=2&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=4&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=5&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=6&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=8&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=9&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=10&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=11&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=13&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=18&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=14&certified&sortBy=release&type=dvd-streaming-all',]
+
+N = ['Action', 'Animation', 'Art&Foreign', 'Classics', 'Comedy', 'Documentary', 'Drama', 'Horror', 'Kids&Family', 'Mystery', 'Romance', 'Scifi&Fantasy']
+
+P = [97, 16, 69, 47, 156, 54, 258, 53, 31, 95, 54, 50]
+# P = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+
+MNG = Manager()
+A = MNG.list()
+Processes = []
+if __name__ == '__main__':
+    for i in range(10):
+	    p = Process(target = run1, args = (U[i],N[i],P[i]))
+	    Processes.append(p)
+	    p.start()
+
+for p in Processes:
+	p.join()
+
+print('List length: ' + str(len(A)) + '\n')
+time.sleep(2)
+print(Fore.LIGHTGREEN_EX + 'Step 1 completed, proceed in 3 seconds...')
+print(Style.RESET_ALL)
+time.sleep(3)
+print(Fore.LIGHTGREEN_EX + 'Step 2 starts')
+time.sleep(1)
+
+### Step2:  ###
+print('running...')
+r = 0
+for x in range(0,len(A),600):
+	r += 1
+	fh = open(PATH + '/RT/RT_All_URLs_Gen1_12_Part_' + str(r) + '.txt','w')
+	for s in A[x : x + 600]:
+		fh.write(str(s) + '\n')
+	fh.close()
+if A:
+	del A
+
+print(Fore.LIGHTGREEN_EX + 'Step 2 completed, proceed in 3 seconds...')
+print(Style.RESET_ALL)
+time.sleep(3)
+print(Fore.LIGHTGREEN_EX + 'Step 3 starts')
+print(Style.RESET_ALL)
+time.sleep(1)
+
+### Step 3: Collect main pages for each movie on the URL list (.html) ###
 def run4(partx):
 	with open(PATH + '/RT/RT_All_URLs_Gen1_12_Part_' + str(partx) + '.txt', 'r') as myfile:
 		urls = myfile.read()
@@ -116,76 +171,18 @@ def run4(partx):
 	for n in failed_ls:
 		fa.write(str(n) + '\n')
 	return
+	
+# RT_All_Gen1_12_Movie_Page_Sources_HTML
+if not os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/'):
+	os.makedirs(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/')
+P1 = []
+for i in range(1,26):
+	p2 = Process(target = run4, args = (str(i),))
+	P1.append(p2)
+	p2.start()
+for p in P1:
+		p.join()
+# p.close()
 
-U = ['https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=1&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=2&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=4&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=5&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=6&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=8&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=9&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=10&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=11&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=13&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=18&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=14&certified&sortBy=release&type=dvd-streaming-all',]
-
-N = ['Action', 'Animation', 'Art&Foreign', 'Classics', 'Comedy', 'Documentary', 'Drama', 'Horror', 'Kids&Family', 'Mystery', 'Romance', 'Scifi&Fantasy']
-
-P = [97, 16, 69, 47, 156, 54, 258, 53, 31, 95, 54, 50]
-# P = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-
-MNG = Manager()
-
-A = MNG.list()
-
-def R2():
-    PATH = input('Enter desired file path: ')
-    # /Users/CalvinCao/Desktop
-
-    if not os.path.exists(PATH + '/RT/'):
-	    os.makedirs(PATH + '/RT/')
-    time.sleep(1)
-    print(Fore.LIGHTGREEN_EX + 'Starting Step 1')
-    print(Style.RESET_ALL)
-    time.sleep(1)
-
-    Processes = []
-    for i in range(10):
-	    p = Process(target = run1, args = (U[i],N[i],P[i]))
-	    Processes.append(p)
-	    p.start()
-    for p in Processes:
-	    p.join()
-
-    print('List length: ' + str(len(A)) + '\n')
-    time.sleep(2)
-    print(Fore.LIGHTGREEN_EX + 'Step 1 completed, proceed in 3 seconds...')
-    print(Style.RESET_ALL)
-    time.sleep(3)
-    print(Fore.LIGHTGREEN_EX + 'Step 2 starts')
-    time.sleep(1)
-
-    print('running...')
-    r = 0
-    for x in range(0,len(A),600):
-	    r += 1
-	    fh = open(PATH + '/RT/RT_All_URLs_Gen1_12_Part_' + str(r) + '.txt','w')
-	    for s in A[x : x + 600]:
-		    fh.write(str(s) + '\n')
-	    fh.close()
-    if A:
-	    del A
-
-    print(Fore.LIGHTGREEN_EX + 'Step 2 completed, proceed in 3 seconds...')
-    print(Style.RESET_ALL)
-    time.sleep(3)
-    print(Fore.LIGHTGREEN_EX + 'Step 3 starts')
-    print(Style.RESET_ALL)
-    time.sleep(1)
-
-    if not os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/'):
-	    os.makedirs(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/')
-    P1 = []
-    for i in range(1,26):
-	    p2 = Process(target = run4, args = (str(i),))
-	    P1.append(p2)
-	    p2.start()
-    for p in P1:
-		    p.join()
-    # p.close()
-
-    print(Fore.LIGHTGREEN_EX + 'Process finished')
-    exit()
-
-if __name__ == '__main__':
-    R2()
+print(Fore.LIGHTGREEN_EX + 'Process finished')
+exit()
