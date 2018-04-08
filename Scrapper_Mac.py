@@ -71,10 +71,11 @@ print(Fore.LIGHTGREEN_EX + 'Step 1 completed, proceed in 3 seconds...')
 print(Style.RESET_ALL)
 time.sleep(3)
 print(Fore.LIGHTGREEN_EX + 'Step 2 starts')
+print(Style.RESET_ALL)
 time.sleep(1)
 
 ### Step2:  ###
-print('running...')
+print('running...' + '\n')
 r = 0
 for x in range(0,len(A),600):
 	r += 1
@@ -183,4 +184,5 @@ for p in P1:
 # p.close()
 
 print(Fore.LIGHTGREEN_EX + 'Process finished')
+print(Style.RESET_ALL)
 exit()
