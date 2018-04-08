@@ -190,6 +190,8 @@ def run4(partx):
 		fa.write(str(n) + '\n')
 	return
 
+# run4(1)
+
 import multiprocessing
 
 for i in range(1,26):
@@ -281,7 +283,7 @@ def run5():
 
 run5()
 """
-
+"""
 # Get all HTML into one list as strings
 import os
 HTML_ALL_ls = []
@@ -306,4 +308,4 @@ def run6():
 	return
 
 run6()
-
+"""
