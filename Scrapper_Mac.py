@@ -94,10 +94,6 @@ time.sleep(1)
 
 ### Step 3: Collect main pages for each movie on the URL list (.html) ###
 def run4(partx):
-	import os
-	import time
-	import requests
-	from colorama import Fore, Back, Style
 	with open(PATH + '/RT/RT_All_URLs_Gen1_12_Part_' + str(partx) + '.txt', 'r') as myfile:
 		urls = myfile.read()
 	urls_ls = urls.split('\n')
