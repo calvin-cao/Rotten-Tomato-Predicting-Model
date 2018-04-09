@@ -6,10 +6,12 @@ import os
 from colorama import Fore, Back, Style
 
 PATH = input('Enter desired file path: ')
-# /Users/CalvinCao/Desktop
+if len(PATH) < 1:
+    PATH = 'C:/Local'
 
 if not os.path.exists(PATH + '/RT/'):
 	os.makedirs(PATH + '/RT/')
+
 time.sleep(1)
 print(Fore.LIGHTGREEN_EX + 'Starting Step 1')
 print(Style.RESET_ALL)
