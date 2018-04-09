@@ -4,7 +4,6 @@ import time
 import requests
 import os
 from colorama import Fore, Back, Style
-from multiprocessing import Process, Manager
 
 PATH = input('Enter desired file path: ')
 # /Users/CalvinCao/Desktop
@@ -34,7 +33,6 @@ def run1(url,filename,pagenumber):
 				time.sleep(2)
 		data_str = str(data)
 		url_location = [m.start() for m in re.finditer("'url':", data_str)]
-		# print(url_location)
 		for x in url_location:
 			url_start = x
 			url_end = data_str.find(',', url_start)
@@ -55,17 +53,10 @@ N = ['Action', 'Animation', 'Art&Foreign', 'Classics', 'Comedy', 'Documentary', 
 P = [97, 16, 69, 47, 156, 54, 258, 53, 31, 95, 54, 50]
 # P = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
 
-MNG = Manager()
-A = MNG.list()
-Processes = []
-if __name__ == '__main__':
-    for i in range(10):
-	    p = Process(target = run1, args = (U[i],N[i],P[i]))
-	    Processes.append(p)
-	    p.start()
+A = []
 
-for p in Processes:
-	p.join()
+for i in range(10):
+    run1(U[i],N[i],P[i])
 
 print('List length: ' + str(len(A)) + '\n')
 time.sleep(2)
@@ -73,10 +64,11 @@ print(Fore.LIGHTGREEN_EX + 'Step 1 completed, proceed in 3 seconds...')
 print(Style.RESET_ALL)
 time.sleep(3)
 print(Fore.LIGHTGREEN_EX + 'Step 2 starts')
+print(Style.RESET_ALL)
 time.sleep(1)
 
 ### Step2:  ###
-print('running...')
+print('running...' + '\n')
 r = 0
 for x in range(0,len(A),600):
 	r += 1
@@ -175,14 +167,10 @@ def run4(partx):
 # RT_All_Gen1_12_Movie_Page_Sources_HTML
 if not os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/'):
 	os.makedirs(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/')
-P1 = []
+
 for i in range(1,26):
-	p2 = Process(target = run4, args = (str(i),))
-	P1.append(p2)
-	p2.start()
-for p in P1:
-		p.join()
-# p.close()
+	run4(i)
 
 print(Fore.LIGHTGREEN_EX + 'Process finished')
+print(Style.RESET_ALL)
 exit()
