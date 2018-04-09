@@ -57,7 +57,7 @@ P = [97, 16, 69, 47, 156, 54, 258, 53, 31, 95, 54, 50]
 
 A = []
 
-for i in range(10):
+for i in range(len(U)):
     run1(U[i],N[i],P[i])
 
 print('List length: ' + str(len(A)) + '\n')

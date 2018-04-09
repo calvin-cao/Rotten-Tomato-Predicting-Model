@@ -90,7 +90,7 @@ try: Runtime = int(Runtime[:-8])
 except Exception: pass
 
 
-#Now what we got
+# Now what we got
 """
 Critics_Score
 Audience_Score
@@ -117,6 +117,3 @@ On_Disc_Streaming_year
 Box_Office
 Runtime
 """
-
-
-
