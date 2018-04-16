@@ -1,6 +1,6 @@
-
-#pageLink = 'https://www.rottentomatoes.com/m/2012'
-#pageLink = 'https://www.rottentomatoes.com/m/thelma_2017'
+### Jeff's Parser ###
+# pageLink = 'https://www.rottentomatoes.com/m/2012'
+# pageLink = 'https://www.rottentomatoes.com/m/thelma_2017'
 pageLink = 'https://www.rottentomatoes.com/m/black_panther_2018'
 
 from bs4 import BeautifulSoup
@@ -90,7 +90,7 @@ try: Runtime = int(Runtime[:-8])
 except Exception: pass
 
 
-#Now what we got
+# Now what we got
 """
 Critics_Score
 Audience_Score
@@ -117,6 +117,3 @@ On_Disc_Streaming_year
 Box_Office
 Runtime
 """
-
-
-
