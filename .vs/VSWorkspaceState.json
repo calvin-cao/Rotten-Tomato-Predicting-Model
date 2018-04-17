@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Finished",
+    "\\Trivial",
+    "\\Win_MP_Testing",
+    "\\WIP"
   ],
-  "SelectedNode": "\\Read_Local_HTMLs.py",
+  "SelectedNode": "\\Win_MP_Testing\\MP.py",
   "PreviewInSolutionExplorer": false
 }
