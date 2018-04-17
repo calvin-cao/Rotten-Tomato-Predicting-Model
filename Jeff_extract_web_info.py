@@ -117,3 +117,6 @@ On_Disc_Streaming_year
 Box_Office
 Runtime
 """
+
+write:Critics_Score + '/t' + Audience_Score + '/t' +
++ '/n'
