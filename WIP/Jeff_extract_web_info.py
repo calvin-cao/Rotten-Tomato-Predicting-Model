@@ -91,7 +91,7 @@ except Exception: pass
 
 
 # Now what we got
-"""
+
 Critics_Score
 Audience_Score
 Critics_Sample_Score
@@ -120,3 +120,4 @@ Runtime
 
 write:Critics_Score + '/t' + Audience_Score + '/t' +
 + '/n'
+"""
