@@ -1,7 +1,7 @@
 ### Jeff's Parser ###
 # pageLink = 'https://www.rottentomatoes.com/m/2012'
-# pageLink = 'https://www.rottentomatoes.com/m/thelma_2017'
-pageLink = 'https://www.rottentomatoes.com/m/black_panther_2018'
+pageLink = 'https://www.rottentomatoes.com/m/thelma_2017'
+# pageLink = 'https://www.rottentomatoes.com/m/black_panther_2018'
 
 from bs4 import BeautifulSoup
 import requests, re
@@ -13,26 +13,32 @@ soup = BeautifulSoup(html.decode('ascii', 'ignore'),'lxml') # parse the html
 
 #get 'TOMATOMETER'
 Critics_Score = int(soup.find('span',{'class':'meter-value superPageFontColor'}).text[:-1])
+#print(Critics_Score)
 
 #get 'AUDIENCE SCORE'
 Audience_Score = int(soup.find('span',{'style':'vertical-align:top'}).text[:-1])
+#print(Audience_Score)
 
+"""
 #estimate 'TOMATOMETER' by sample mean from 'CRITICS REVIEWS'
 rotten = soup.findAll('span', {'class':re.compile('small rotten')})
 fresh = soup.findAll('span', {'class':re.compile('small fresh')})
 Critics_Sample_Score = len(fresh)/(len(fresh)+len(rotten))*100
-
+"""
 
 #get 'Critic Consensus'
 Critic_Consensus = soup.find('p',{'class':'critic_consensus superPageFontColor'}).text.split('\n')[2].strip()
+#print(Critic_Consensus)
 
 #get 'MOVIE INFO'
 Summary = soup.find('div',{'id':'movieSynopsis'}).text.split('\n')[1].strip()
+#print(Summary)
 
 #get all content as a string
 Content = ''
 for c in soup.findAll('div',{'class':re.compile('meta-value')}):
     Content += (c.text.strip() + ' ')
+#print(Content)
 
 #get content by each class
 for i in range(len(soup.findAll('div',{'class':re.compile('meta-label subtle')}))):   
@@ -44,6 +50,7 @@ Cast = ''
 for c in castSection.findAll('a',{'href':re.compile('/celebrity/')}):
     if c.text != '\n': Cast += c.text.strip() + ','
 Cast = Cast.replace(' ', '') #combine each name
+#print(Cast)
 
 '''#same result but slow
 Cast = ''
@@ -91,10 +98,10 @@ except Exception: pass
 
 
 # Now what we got
-"""
+
 Critics_Score
 Audience_Score
-Critics_Sample_Score
+# Critics_Sample_Score
 
 Critic_Consensus
 Summary
@@ -116,7 +123,9 @@ In_Theaters_year
 On_Disc_Streaming_year
 Box_Office
 Runtime
+
 """
 
 write:Critics_Score + '/t' + Audience_Score + '/t' +
 + '/n'
+"""
