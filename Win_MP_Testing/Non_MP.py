@@ -1,6 +1,8 @@
 import time
+import math
+def f(x):
+    return print(x*x)
 start_time = time.clock()
-# a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-for x in range(100000):
-    print(x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x*x)
+for x in range(10000):
+    f(x)
 print("--- %s seconds ---" % (time.clock() - start_time))

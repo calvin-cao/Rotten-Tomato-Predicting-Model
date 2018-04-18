@@ -1,0 +1,12 @@
+﻿# Calculate from 1 to 100,000,000 return x
+
+python C:\Users\calvi\Documents\GitHub\RottenTomatoPredictingModel\Win_MP_Testing\MP.py (Uti = 0.94)
+
+Pool(5):
+--- 28.586337006229407 seconds ---
+
+python C:\Users\calvi\Documents\GitHub\RottenTomatoPredictingModel\Win_MP_Testing\Non_MP.py (Uti = 0.26 - 0.30)
+
+--- 13.845802833670216 seconds ---
+
+python C:\Users\calvi\Dropbox\Desktop\Scrapper_Win_MP\test.py
