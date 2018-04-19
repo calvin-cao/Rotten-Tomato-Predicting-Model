@@ -5,7 +5,7 @@ import time
 
 a = os.listdir("C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/")
 b = []
-for x in a[:100]:
+for x in a:
     x = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/" + x
     if not '.txt' in x:
         b.append(x)
@@ -14,7 +14,16 @@ for x in a[:100]:
 
 CS = [] # Critics_Score
 AS = [] # Audience_Score
-CC = [] # Critic Consensus
+# CC = [] # Critic Consensus
+RA = [] # Rating
+GE = [] # Genre
+DB = [] # Directed_By
+WB = [] # Written_By
+ST = [] # Studio
+ITD = [] # In_Theaters_date
+ODSD = [] # On_Disc_Streaming_date
+BO = [] # Box_Office
+RU = [] # Runtime
 MI = [] # Summary
 CT = [] # Content
 CA = [] # Cast
@@ -64,12 +73,63 @@ for x in b:
         Content = ''
         for c in soup.findAll('div',{'class':re.compile('meta-value')}):
             Content += (c.text.strip() + ' ')
+        for i in range(len(soup.findAll('div',{'class':re.compile('meta-label subtle')}))):   
+            exec(soup.findAll('div',{'class':re.compile('meta-label subtle')})[i].text.strip()[:-1].replace(' ','_').replace('/','_') + " = soup.findAll('div',{'class':re.compile('meta-value')})[i].text.strip()")
+        try:
+            Rating = Rating.replace(' ', '') #combine words
+        except Exception:
+            pass
+        try:
+            Genre = Genre.replace(' ', '').replace('\n', '') #combine words
+        except Exception:
+            pass
+        try:
+            Directed_By = Directed_By.replace(' ', '') #combine words
+        except Exception:
+            pass
+        try:
+            Written_By = Written_By.replace(' ', '') #combine words
+        except Exception:
+            pass
+        try:
+            Studio = Studio.replace(' ', '') #combine words
+        except Exception:
+            pass
+
+        try:
+            In_Theaters_month = In_Theaters[:3] #extract In Theaters month
+        except Exception:
+            pass
+        try:
+            In_Theaters_year = int(In_Theaters.split(', ')[1][:4]) #extract In Theaters year
+        except Exception:
+            pass
+        try:
+            On_Disc_Streaming_month = On_Disc_Streaming[:3] #extract On Disc month
+        except Exception:
+            pass
+        try:
+            On_Disc_Streaming_year = int(On_Disc_Streaming.split(', ')[1][:4]) #extract On Disc year
+        except Exception:
+            pass
+
+        try:
+            Box_Office = int(Box_Office[1:].replace(',',''))
+        except Exception:
+            pass
+        try:
+            Runtime = int(Runtime[:-8])
+        except Exception:
+            pass
+
+    """
         CT.append(Content)
     except:
         CT.append(None)
         print(str(i), 'CT Failed')
         #continue
-    
+    """
+
     try:
         castSection = soup.find('div',{'class':'castSection'})
         Cast = ''

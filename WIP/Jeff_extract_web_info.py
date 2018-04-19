@@ -82,13 +82,10 @@ except Exception: pass
 try: Studio = Studio.replace(' ', '') #combine words
 except Exception: pass
 
-try: In_Theaters_month = In_Theaters[:3] #extract In Theaters month
+try: In_Theaters_date = In_Theaters #extract In Theaters month
 except Exception: pass
-try: In_Theaters_year = int(In_Theaters.split(', ')[1][:4]) #extract In Theaters year
-except Exception: pass
-try: On_Disc_Streaming_month = On_Disc_Streaming[:3] #extract On Disc month
-except Exception: pass
-try: On_Disc_Streaming_year = int(On_Disc_Streaming.split(', ')[1][:4]) #extract On Disc year
+
+try: On_Disc_Streaming_date = On_Disc_Streaming #extract On Disc month
 except Exception: pass
 
 try: Box_Office = int(Box_Office[1:].replace(',',''))
