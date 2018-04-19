@@ -2,9 +2,10 @@ from bs4 import BeautifulSoup
 import re
 import os
 import time
+from lxml import etree
 a = os.listdir("C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/")
 b = []
-for x in a[:20]:
+for x in a:
     x = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/" + x
     if not '.txt' in x:
         b.append(x)
@@ -25,6 +26,8 @@ MI = [] # Summary
 CA = [] # Cast
 CR = [] # Critics_Reviews
 AR = [] # Audience_Reviews
+RC = [] # Reviews_counted
+UR = [] # Users_rating
 start_time = time.clock()
 asdaf = 0
 for x in b:
@@ -137,45 +140,29 @@ for x in b:
         AR.append(None)
         print('AR Failed')
         #continue
+    try:
+        g = open(x)
+        html = g.read().encode('utf-8')
+        selector = etree.HTML(html)
+        tomatometers= selector.xpath('//*[@id="scoreStats"]/div[2]')
+        for tomatometer in tomatometers:
+            reviews_counted=tomatometer.xpath('//*[@id="scoreStats"]/div[2]/span[2]')
+        RC.append(reviews_counted[0].text)
+    except:
+        RC.append(None)
+        print('RC Failed')
+    try:
+        audiences=selector.xpath('//*[@id="scorePanel"]/div[2]/div[2]')
+        for audience in audiences:
+            users_rating_text=audience.xpath('//*[@id="scorePanel"]/div[2]/div[2]/div[2]/text()')
+            users_rating=users_rating_text[1].split()[0]
+        UR.append(users_rating)
+    except:
+        UR.append(None)
+        print('UR Failed')
 fh = open("C:/Local/RT/test.txt", 'w', encoding = 'utf-8')
-fh.write('Movie_name' + '\t' + 'Critics_Score' + '\t' + 'Audience_Score' + '\t' + 'Critic Consensus' + '\t' + 'Rating' + '\t' + 'Genre' + '\t' + 'Directed_By' + '\t' + 'Written_By' + '\t' + 'Studio' + '\t' + 'In_Theaters_date' + '\t' + 'On_Disc_Streaming_date' + '\t' + 'Box_Office' + '\t' + 'Runtime' + '\t' + 'Summary' + '\t' + 'Cast' + '\t' + 'Critics_Reviews' + '\t' + 'Audience_Reviews' + '\n')
+fh.write('Movie_name' + '\t' + 'Critics_Score' + '\t' + 'Audience_Score' + '\t' + 'Critic Consensus' + '\t' + 'Rating' + '\t' + 'Genre' + '\t' + 'Directed_By' + '\t' + 'Written_By' + '\t' + 'Studio' + '\t' + 'In_Theaters_date' + '\t' + 'On_Disc_Streaming_date' + '\t' + 'Box_Office' + '\t' + 'Runtime' + '\t' + 'Summary' + '\t' + 'Cast' + '\t' + 'Critics_Reviews' + '\t' + 'Audience_Reviews' + '\t' + 'Critics_Reviewer_Count' + '\t' + 'Audience_Reviewer_Count' + '\n')
 for x in range(len(b)):
-    fh.write(a[x] + '\t' + str(CS[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(AS[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(RA[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(GE[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(DB[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(WB[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(ST[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(ITD[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(ODSD[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(BO[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(RU[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(MI[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(CA[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(CR[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(AR[x]).replace('\n', " ").replace('\t', ' ') + '\n' + '\n' + '\n')
+    fh.write(a[x] + '\t' + str(CS[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(AS[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(RA[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(GE[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(DB[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(WB[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(ST[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(ITD[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(ODSD[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(BO[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(RU[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(MI[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(CA[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(CR[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(AR[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(RC[x]).replace('\n', " ").replace('\t', ' ') + '\t' + str(UR[x]).replace('\n', " ").replace('\t', ' ') + '\n' + '\n' + '\n')
 fh.close()
 print("--- %s seconds ---" % (time.clock() - start_time))
-
-"""
-CS = [] # Critics_Score
-AS = [] # Audience_Score
-CC = [] # Critic Consensus
-RA = [] # Rating
-GE = [] # Genre
-DB = [] # Directed_By
-WB = [] # Written_By
-ST = [] # Studio
-ITD = [] # In_Theaters_date
-ODSD = [] # On_Disc_Streaming_date
-BO = [] # Box_Office
-RU = [] # Runtime
-MI = [] # Summary
-# CT = [] # Content
-CA = [] # Cast
-CR = [] # Critics_Reviews
-AR = [] # Audience_Reviews
-
-len(CS)
-len(AS)
-len(RA)
-len(GE)
-len(DB)
-len(WB)
-len(ST)
-len(ITD)
-len(ODSD)
-len(BO)
-len(RU)
-len(MI)
-len(CA)
-len(CR)
-len(AR)
-"""

@@ -24,5 +24,3 @@ for audience in audiences:
     users_rating_text=audience.xpath('//*[@id="scorePanel"]/div[2]/div[2]/div[2]/text()')
     users_rating=users_rating_text[1].split()[0]
     print(users_rating)
-   
-
