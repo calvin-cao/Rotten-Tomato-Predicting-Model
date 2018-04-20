@@ -5,7 +5,7 @@ import time
 from lxml import etree
 a = os.listdir("C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/")
 b = []
-for x in a[:10]:
+for x in a:
     x = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/" + x
     if not '.txt' in x:
         b.append(x)
