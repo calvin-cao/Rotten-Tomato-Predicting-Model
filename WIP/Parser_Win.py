@@ -3,10 +3,11 @@ import re
 import os
 import time
 from lxml import etree
+from time import gmtime, strftime
 PATH = input("Please enter html files' path: \n")
 if len(PATH) < 1:
     PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/"
-start_time = time.time()
+start_time = time.clock()
 def run(List):
 	asdaf = 0
 	for x in List:
@@ -144,7 +145,7 @@ def run(List):
 
 AIA = []
 run([PATH + x for x in os.listdir(PATH) if '.html' in x])
-fh = open(PATH + 'test.txt', 'w')
+fh = open(PATH + 'test_' + strftime("%Y-%m-%d_%H-%M-%S") + '.txt', 'w', encoding = 'utf-8')
 fh.write('Movie_name' + '\t' + 'Critics_Score' + '\t' + 'Audience_Score' + '\t' + 'Critic_Consensus' + '\t' + 'Rating' + '\t' + 'Genre' + '\t' + 'Directed_By' + '\t' + 'Written_By' + '\t' + 'Studio' + '\t' + 'In_Theaters_date' + '\t' + 'On_Disc_Streaming_date' + '\t' + 'Box_Office' + '\t' + 'Runtime' + '\t' + 'Summary' + '\t' + 'Cast' + '\t' + 'Critics_Reviews' + '\t' + 'Audience_Reviews' + '\t' + 'Critics_Reviewer_Count' + '\t' + 'Audience_Reviewer_Count' + '\n')
 for x in AIA:
 	fh.write(x)
