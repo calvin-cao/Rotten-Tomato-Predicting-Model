@@ -51,13 +51,19 @@ for x in test:
 sum(a)/len(a)
 import matplotlib.pyplot as plt
 fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
-# ax.hist(a, bins = 80)
-ax.hist(b, bins = 90, label = 'Critics')
-ax.hist(c, bins = 120, label = 'Audience')
-ax.set_title('Critics-Audience Score Difference Histogram')
-ax.legend(loc = 'best')
+# ax = fig.add_subplot(1,1,1)
+ax1 = fig.add_subplot(3,1,1)
+ax2 = fig.add_subplot(3,1,2)
+ax3 = fig.add_subplot(3,1,3)
+ax3.hist(a, bins = 80, color = 'Orange')
+ax1.hist(b, bins = 100, label = 'Critics')
+ax2.hist(c, bins = 100, label = 'Audience', color = 'g')
+ax3.set_title('Critics-Audience Score Difference Histogram')
+ax1.set_title('Critics Score Histogram')
+ax2.set_title('Audience Score Histogram')
+# ax.legend(loc = 'best')
 plt.show()
+# plt.savefig("C:/Users/calvi/Dropbox/Desktop/Critics_Audience_Score_Diff_Hist.png", dpi = 400, bbox_inches = 'tight')
 
-import numpy as np
+import NumPy as np
 # help(np)
