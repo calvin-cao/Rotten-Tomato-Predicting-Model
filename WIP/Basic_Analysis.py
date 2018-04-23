@@ -21,7 +21,7 @@ Value:
     17: Audience_Reviewer_Count
 """
 
-PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt"
+# PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt"
 fh = open(PATH, 'r', encoding = 'utf-8')
 test = {}
 for line in fh:
