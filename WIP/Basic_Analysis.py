@@ -29,5 +29,35 @@ for line in fh:
         continue
     a = line.strip().split('\t')
     test[str(a[0])] = a[1:]
-print(test['10'])
+fh.close()
+# print(test['10'])
 
+a = []
+b = []
+c = []
+for x in test:
+    try:
+        b.append(int(test[x][0]))
+    except:
+        pass
+    try:
+        c.append(int(test[x][1]))
+    except:
+        pass
+    try:
+        a.append(int(test[x][0]) - int(test[x][1]))
+    except:
+        pass
+sum(a)/len(a)
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+# ax.hist(a, bins = 80)
+ax.hist(b, bins = 90, label = 'Critics')
+ax.hist(c, bins = 120, label = 'Audience')
+ax.set_title('Critics-Audience Score Difference Histogram')
+ax.legend(loc = 'best')
+plt.show()
+
+import numpy as np
+# help(np)
