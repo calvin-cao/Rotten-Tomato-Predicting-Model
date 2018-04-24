@@ -84,7 +84,7 @@ def run(List):
 				BO = None
 				print('BO failed')
 			try:
-				RU = str(ARS['Runtime'])
+				RU = str(ARS['Runtime'][0:-8])
 			except:
 				RU = None
 				print('RU failed')

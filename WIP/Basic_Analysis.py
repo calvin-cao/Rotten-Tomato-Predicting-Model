@@ -21,7 +21,7 @@ Value:
     17: Audience_Reviewer_Count
 """
 
-# PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt"
+PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt"
 fh = open(PATH, 'r', encoding = 'utf-8')
 test = {}
 for line in fh:
@@ -49,6 +49,8 @@ for x in test:
     except:
         pass
 sum(a)/len(a)
+sum(b)/len(b)
+sum(c)/len(c)
 import matplotlib.pyplot as plt
 fig = plt.figure()
 # ax = fig.add_subplot(1,1,1)
@@ -65,5 +67,5 @@ ax2.set_title('Audience Score Histogram')
 plt.show()
 # plt.savefig("C:/Users/calvi/Dropbox/Desktop/Critics_Audience_Score_Diff_Hist.png", dpi = 400, bbox_inches = 'tight')
 
-import NumPy as np
+import numpy as np
 # help(np)
