@@ -2,10 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\Finished",
+    "\\Finished\\Mac",
+    "\\Finished\\Windows",
     "\\Trivial",
     "\\Win_MP_Testing",
     "\\WIP"
   ],
-  "SelectedNode": "\\Win_MP_Testing\\MP.py",
+  "SelectedNode": "\\Finished\\Windows\\Scrapper_Windows.py",
   "PreviewInSolutionExplorer": false
 }
