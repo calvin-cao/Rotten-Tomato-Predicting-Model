@@ -1,6 +1,6 @@
 """
 Key = Movie's name
-Value:
+Value(list):
     0: Critics_Score
     1: Audienc_Score
     2: Critic_Consensus
@@ -69,3 +69,59 @@ plt.show()
 
 import numpy as np
 # help(np)
+
+# REstart
+PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt"
+fh = open(PATH, 'r', encoding = 'utf-8')
+test = {}
+for line in fh:
+    if line.startswith('Movie_name'):
+        continue
+    a = line.strip().split('\t')
+    test[str(a[0])] = a[1:]
+fh.close()
+# print(test['10'])
+
+GC_pair_temp = dict()
+for every_movie in test:
+    #Genre: test[str(every_movie)][4]
+    #Cast: test[str(every_movie)][13]
+    #BO: test[str(every_movie)][10]
+    #Critics_Score: test[str(every_movie)][0]
+    #Audience_Score: test[str(every_movie)][1]
+    GE = test[str(every_movie)][4][1:-1].strip().split(',')
+    CA = test[str(every_movie)][13][1:-2].strip().split(',')
+    CS = test[str(every_movie)][0].strip()
+    AS = test[str(every_movie)][1].strip()
+    A = []
+    for x in CA:
+        for s in GE:
+            A.append(str(x) + '+' + str(s))
+    for a in A:
+        if str(a) in GC_pair_temp:
+            try:
+                GC_pair_temp[str(a)].append(int(CS))
+            except:
+                continue
+        elif not str(a) in GC_pair_temp:
+            GC_pair_temp[str(a)] = []
+            try:
+                GC_pair_temp[str(a)].append(int(CS))
+            except:
+                continue
+        else:
+            continue
+    del(GE)
+    del(CA)
+    del(CS)
+    del(AS)
+    del(A)
+
+print(GC_pair_temp['LoganLerman+Action&Adventure'])
+
+GC_pair = dict()
+for x in GC_pair_temp:
+    l = len(GC_pair[str(x)])
+    sum = sum(x for x in GC_pair[str(x)])
+    GC_pair[str(x)] = 0
+    GC_pair[str(x)] = sum/l
