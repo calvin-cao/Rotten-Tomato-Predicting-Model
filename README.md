@@ -1,4 +1,4 @@
-This repository is for a final group project of a course.
+This repository is for a final group project for the course: Web Analytics
 
 # Project
 *Due: Apr 30 by 11:59pm | Points: 60 | Submitting: a file upload | File Types: zip | Available: until Apr 30 at 11:59pm*
