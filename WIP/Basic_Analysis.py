@@ -91,6 +91,7 @@ for every_movie in test:
     #Audience_Score: test[str(every_movie)][1]
     GE = test[str(every_movie)][4][1:-1].strip().split(',')
     CA = test[str(every_movie)][13][1:-2].strip().split(',')
+    BO = test[str(every_movie)][10][1:-1].strip().replace('$','').replace(',','')
     CS = test[str(every_movie)][0].strip()
     AS = test[str(every_movie)][1].strip()
     A = []
@@ -100,28 +101,42 @@ for every_movie in test:
     for a in A:
         if str(a) in GC_pair_temp:
             try:
-                GC_pair_temp[str(a)].append(int(CS))
+                GC_pair_temp[str(a)].append(int(BO))
             except:
                 continue
         elif not str(a) in GC_pair_temp:
             GC_pair_temp[str(a)] = []
             try:
-                GC_pair_temp[str(a)].append(int(CS))
+                GC_pair_temp[str(a)].append(int(BO))
             except:
                 continue
         else:
             continue
-    del(GE)
-    del(CA)
-    del(CS)
-    del(AS)
-    del(A)
+    GE,CA,BO,CS,AS = None, None, None, None, None
 
 print(GC_pair_temp['LoganLerman+Action&Adventure'])
+print(len(GC_pair_temp))
 
 GC_pair = dict()
 for x in GC_pair_temp:
-    l = len(GC_pair[str(x)])
-    sum = sum(x for x in GC_pair[str(x)])
-    GC_pair[str(x)] = 0
-    GC_pair[str(x)] = sum/l
+    s = 0
+    l = len(GC_pair_temp[str(x)])
+    if l == 0:
+        GC_pair[str(x)] = None
+    else:
+        for v in GC_pair_temp[str(x)]:
+            s = s + int(v)
+        GC_pair[str(x)] = s/l
+    s,l = None, None
+
+print(GC_pair['LoganLerman+Action&Adventure'])
+print(len(GC_pair))
+
+PATH = 'C:/Local/RT/'
+fh = open(PATH + 'GC_pair_versus_CS.txt', 'w', encoding = 'utf-8')
+for x in GC_pair:
+    if not GC_pair[str(x)]:
+        continue
+    else:
+        fh.write(str(x.strip()) + '\t' + str(GC_pair[str(x)]) + '\n')
+fh.close()
