@@ -1,4 +1,7 @@
-### This is trial
+"""
+@author: smit-mehta
+"""
+
 import calendar
 import timestring
 import pandas as pd
