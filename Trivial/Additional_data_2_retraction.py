@@ -7,11 +7,26 @@ for line in fh:
     test[str(a[0])] = a[1:]
 fh.close()
 
+for x in test:
+    # for i in range(3):
+    if ',Jr' in test[x][13]:
+        test[x][13] = test[x][13].replace(',Jr','.Jr')
+    else:
+        continue
+
+a = []
+for x in test:
+    if ',Jr' in test[x][13][1:-2]:
+        a.append(test[x][13][1:-2])
+    else:
+        continue
+print(len(a))
+
 ACTR_TM = {}
 for x in test:
     for s in test[x][13][1:-2].strip().split(','):
         ACTR_TM[s] = ACTR_TM.get(s, 0) + 1
-print(ACTR_BO['TomHanks'])
+print(ACTR_TM['TomHanks'])
 
 ACTR_BO = dict()
 for x in test:
@@ -96,3 +111,5 @@ fh.write('Actor' + '\t' + 'Total_movie' + '\t' + 'Total_Boxoffice' + '\t' + 'Ave
 for x in ACTR_TM:
     fh.write(x + '\t' + str(ACTR_TM[x]) + '\t' + str(ACTR_BO[x]) + '\t' + str(ACTR_ACR[x]) + '\t' + str(ACTR_AAR[x]) + '\n')
 fh.close()
+
+# Igonore the 'o's cause they are Null values

@@ -101,13 +101,13 @@ for every_movie in test:
     for a in A:
         if str(a) in GC_pair_temp:
             try:
-                GC_pair_temp[str(a)].append(int(BO))
+                GC_pair_temp[str(a)].append(str(CS))
             except:
                 continue
         elif not str(a) in GC_pair_temp:
             GC_pair_temp[str(a)] = []
             try:
-                GC_pair_temp[str(a)].append(int(BO))
+                GC_pair_temp[str(a)].append(str(CS))
             except:
                 continue
         else:
@@ -117,18 +117,30 @@ for every_movie in test:
 print(GC_pair_temp['LoganLerman+Action&Adventure'])
 print(len(GC_pair_temp))
 
+fh = open('C:/Local/RT/GC_pair_temp.txt', 'w', encoding = 'utf-8')
+for x in GC_pair_temp:
+    fh.write(x + '\t')
+    i = 0
+    for s in GC_pair_temp[x]:
+        i += 1
+        if i < len(GC_pair_temp[x]):
+            fh.write(str(s) + '\t')
+        if i == len(GC_pair_temp[x]):
+            fh.write(str(s) + '\n')
+fh.close()
+
+
 GC_pair = dict()
 for x in GC_pair_temp:
+    l = 0
     s = 0
-    l = len(GC_pair_temp[str(x)])
+    l = len(GC_pair_temp[x])
     if l == 0:
-        GC_pair[str(x)] = None
-    else:
-        for v in GC_pair_temp[str(x)]:
+        GC_pair[x] = 'NA'
+    if not l == 0:
+        for v in GC_pair_temp[x]:
             s = s + int(v)
-        GC_pair[str(x)] = s/l
-    s,l = None, None
-
+        GC_pair[x] = s/l
 print(GC_pair['LoganLerman+Action&Adventure'])
 print(len(GC_pair))
 
