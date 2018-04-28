@@ -1,1 +1,53 @@
 ### This is trial
+import calendar
+import timestring
+import pandas as pd
+#import pandas_profiling
+#import numpy as np
+
+df=pd.read_csv('sample.txt', sep='\t')
+df=pd.DataFrame(data=df)
+
+
+df['Release_Date'] = ''
+df['Release_Month'] = ''
+df['Release_Day'] = ''
+df['Weekend_Release'] = ''
+df['Holiday_Release'] = ''
+
+holidays = ['1-1', 
+            #Memorial Day
+            '5-25', '5-26', '5-27', '5-28', '5-29', '5-30', '5-31', 
+            #Independence Day
+            '7-4', 
+            # Labor Day
+            '9-1', '9-2', '9-3', '9-4', '9-5', '9-6', '9-7', 
+            #Thanksgiving Day
+            '11-22', '11-23', '11-24', '11-25', '11-26', '11-27', '11-28', 
+            #Christmas Day
+            '12-25']
+
+
+for i in range(0, 49):
+    try:
+        df['Release_Date'][i] = timestring.Date(df['In Theaters'][i])
+        df['Release_Month'][i] = timestring.Date(df['In Theaters'][i]).month
+        df['Release_Day'][i]= calendar.day_name[timestring.Date(df['In Theaters'][i]).weekday]
+        
+        if str(df['Release_Day'][i]) == 'Friday' or str(df['Release_Day'][i]) == 'Saturday' or str(df['Release_Day'][i]) == 'Sunday':
+            df['Weekend_Release'][i] = 1
+        else:
+            df['Weekend_Release'][i] = 0
+            
+        if str(timestring.Date(df['In Theaters'][i]).month) + '-' + str(timestring.Date(df['In Theaters'][i]).day) in holidays:
+            df['Holiday_Release'][i] = 1
+        else:
+            df['Holiday_Release'][i] = 0
+
+    except:
+        pass
+    
+
+
+
+#df.head(10)
