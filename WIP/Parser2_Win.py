@@ -69,7 +69,7 @@ def run(List):
 				ST = None
 				print('ST failed')
 			try:
-				ITD = str(ARS['In_Theaters'])[:str(ARS['In_Theaters']).find('\n')] + '¬†'
+				ITD = str(ARS['In_Theaters']) #[:str(ARS['In_Theaters']).find('\n')] + '¬†'
 			except:
 				ITD = None
 				print('ITD failed')
