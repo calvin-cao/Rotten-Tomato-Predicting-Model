@@ -130,6 +130,7 @@ for x in GC_pair_temp:
 fh.close()
 
 
+# GC_PAIR STARTS HERE:
 GC_pair = dict()
 for x in GC_pair_temp:
     l = 0
