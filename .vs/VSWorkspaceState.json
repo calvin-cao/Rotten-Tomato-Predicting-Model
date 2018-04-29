@@ -1,6 +1,7 @@
 {
   "ExpandedNodes": [
     "",
+    "\\feature-generation-code",
     "\\Finished",
     "\\Finished\\Mac",
     "\\Finished\\Windows",
@@ -8,6 +9,6 @@
     "\\Win_MP_Testing",
     "\\WIP"
   ],
-  "SelectedNode": "\\WIP\\Basic_Analysis.py",
+  "SelectedNode": "\\Finished\\Mac\\Scrapper_Mac.py",
   "PreviewInSolutionExplorer": false
 }
