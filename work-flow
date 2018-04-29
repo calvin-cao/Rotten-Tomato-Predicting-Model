@@ -1,0 +1,7 @@
+## Logical steps for the project (WIP)
+
+1. Using the train data file, we create the dependent variable (using script: )
+2. Using the train data file, we generate the different potential features (using scripts: )
+3. Using the best features, generate the model (Drop the irrelevant features - from step 2 as well)
+4. Using the test data file as input, we generate the different potential features (using scripts: )
+5. Predict the dependent variable for the test data 
