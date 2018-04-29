@@ -56,8 +56,5 @@ for i in range(0, len(df.index) - 1):
         df['Weekend_Release'][i] = 0
         df['Holiday_Release'][i] = 0
         df['Release_Type'][i] = 'wide'
-    
-
-
 
 #df.head(10)
