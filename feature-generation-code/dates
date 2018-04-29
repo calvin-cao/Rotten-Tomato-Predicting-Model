@@ -1,4 +1,6 @@
-### This is trial
+"""
+@author: smit-mehta
+"""
 import calendar
 import timestring
 import pandas as pd
@@ -28,7 +30,7 @@ holidays = ['1-1',
             '12-25']
 
 
-for i in range(0, 49):
+for i in range(0, 50):
     try:
         df['Release_Date'][i] = timestring.Date(df['In Theaters'][i])
         df['Release_Month'][i] = timestring.Date(df['In Theaters'][i]).month
@@ -45,7 +47,8 @@ for i in range(0, 49):
             df['Holiday_Release'][i] = 0
 
     except:
-        pass
+        df['Weekend_Release'][i] = 0
+        df['Holiday_Release'][i] = 0
     
 
 
