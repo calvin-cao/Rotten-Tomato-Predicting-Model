@@ -32,7 +32,7 @@ holidays = ['1-1',
             '12-25']
 
 
-for i in range(0, 50):
+for i in range(0, len(df.index) - 1):
     try:
         df['Release_Date'][i] = timestring.Date(df['In Theaters'][i])
         df['Release_Month'][i] = timestring.Date(df['In Theaters'][i]).month
