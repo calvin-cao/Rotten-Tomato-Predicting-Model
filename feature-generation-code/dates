@@ -4,10 +4,10 @@
 import calendar
 import timestring
 import pandas as pd
-#import pandas_profiling
-#import numpy as np
+import re
 
-df=pd.read_csv('test_2018-04-28_21-28-52.txt', sep='\t')
+
+df=pd.read_csv('sample.txt', sep='\t')
 df=pd.DataFrame(data=df)
 
 
@@ -16,6 +16,8 @@ df['Release_Month'] = ''
 df['Release_Day'] = ''
 df['Weekend_Release'] = ''
 df['Holiday_Release'] = ''
+df['Release_Type'] = ''
+
 
 holidays = ['1-1', 
             #Memorial Day
@@ -45,10 +47,15 @@ for i in range(0, 50):
             df['Holiday_Release'][i] = 1
         else:
             df['Holiday_Release'][i] = 0
+            
+        temp = re.sub('[^a-zA-Z]',' ',df['In Theaters'][i])
+        temp = re.sub(' +',' ',temp).strip()
+        df['Release_Type'][i] = str(temp[4:])
 
     except:
         df['Weekend_Release'][i] = 0
         df['Holiday_Release'][i] = 0
+        df['Release_Type'][i] = 'wide'
     
 
 
