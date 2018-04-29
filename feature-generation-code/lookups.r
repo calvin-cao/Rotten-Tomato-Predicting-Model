@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 # Importing
-rottom <- read.csv("test_2018-04-23_19-52-54.txt", sep = "\t", stringsAsFactors = FALSE)
+rottom <- read.csv("C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt", sep = "\t", stringsAsFactors = FALSE) #test_2018-04-23_19-52-54.txt
 
 library(stringr)
 
@@ -16,7 +16,6 @@ rt <- rottom[rottom$Yr != "ne", ]
 rt$Year <- ifelse(as.integer(rt$Yr) <= 18, paste0("20",rt$Yr), paste0("19", rt$Yr))
 
 rt$ReleaseDate <- paste(str_sub(rt$In_Theaters_date, 1, -4), rt$Year, sep = "-")
-
 
 rt$ReleaseDate <- strptime(rt$ReleaseDate, format = "%d-%b-%Y")
 
