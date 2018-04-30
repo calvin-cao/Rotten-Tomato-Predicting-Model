@@ -23,7 +23,7 @@ from sklearn.metrics import r2_score
 from time import gmtime, strftime
 
 
-### SCENARIO 1 ###
+### SCENARIO 1 ###  (We have one big dataset to split)
 def f(df_polarity_desc):
     if df_polarity_desc['sentiment'] > 0:
         val = "2"
@@ -155,7 +155,7 @@ print("Program took: " + "--- %s seconds ---" % (time.clock() - start_time))
 """
 
 
-### SCENARIO 2 ###
+### SCENARIO 2 ###  (We have train and test sets separately)
 def f(df_polarity_desc):
     if df_polarity_desc['sentiment'] > 0:
         val = "2"
@@ -257,17 +257,17 @@ def MakeDF(FP):
     del df['Release_Day']
     del df['Release_Month']
     del df['Release_Type']
-    #Create dependent variable
-    df['difference'] = df['critic_score'] - df['audience_score']
     return df
 def SCENE2(TRAIN,TEST):
     ### For Train Set ###
+    data_train['difference'] = data_train['critic_score'] - data_train['audience_score']
     data_train = MakeDF(TRAIN)
     data_train = data_train.fillna(0)
     cols_train = [c for c in data_train.columns if c not in ['movie_id','difference']]
     data_train = data_train[cols_train]
     labels_train = data_train['difference'].values
     ### For Test Set ###
+    data_test['difference'] = data_test['critic_score'] - data_test['audience_score']
     data_test = MakeDF(TEST)
     data_test = data_test.fillna(0)
     cols_test = [c for c in data_test.columns if c not in ['movie_id','difference']]
@@ -290,3 +290,6 @@ print('Pragram SCENE2 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S")))
 print(SCENE2(input("\nWhere is your train?\n"), input("\nWhere is your test?\n")))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
 print("Program took: " + "--- %s seconds ---" % (time.clock() - start_time))
+
+
+### SCENARIO 3 ###  (We only have the test set)
