@@ -148,6 +148,6 @@ def SCENE1(FD):
     r2 = r2_score(label_test, pred) 
     return mse, r2
 
-print(SCENE1("C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"))
-
+print(SCENE1(input("Where is everything?\n")))
+#"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
 ### SCENARIO 2 ###
