@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-@author: smit-mehta
+@author：dyna
+
 """
 
 from sklearn import linear_model
@@ -15,10 +16,13 @@ import sklearn
 from multiprocessing import Pool, cpu_count
 import gc; gc.enable()
 
+#Read Data
+
 df=pd.read_csv('test_2018-04-29_18-08-57.txt', sep='\t')
 df=pd.DataFrame(data=df)
 
 
+#Time Processing
 
 df['Release_Date'] = ''
 df['Release_Month'] = ''
@@ -66,9 +70,11 @@ for i in range(0, len(df.index) - 1):
         df['Weekend_Release'][i] = 0
         df['Holiday_Release'][i] = 0
         df['Release_Type'][i] = 'wide'
-
-
-df_review_str = df['synopsis'].astype(str)
+        
+#Synopsis Processing
+        
+bloblist_desc = list()
+df_review_str = df['synopsis'].astype(str）
 for row in df_review_str:
     blob = TextBlob(row)
     bloblist_desc.append((row,blob.sentiment.polarity, blob.sentiment.subjectivity))
@@ -84,6 +90,7 @@ def f(df_polarity_desc):
 df['synopsis_sc'] = df_polarity_desc.apply(f, axis=1)
  
         
+#Clean the rest data
 
 df['audience_score'] = df['audience_score'].replace('None', np.nan)
 df['audience_score'] = df['audience_score'].str.strip("%")
@@ -93,8 +100,6 @@ df['critic_score'] = df['critic_score'].str.strip("%")
 df['critic_score'] = df['critic_score'].astype(float)
 del df['actor_links']
 del df['Box Office']
-
-
 
 df['Runtime']=df['Runtime'].replace('None', np.nan)
 df['Runtime']=df['Runtime'].str.strip("minutes")
@@ -107,11 +112,9 @@ df['Weekend_Release']=df['Holiday_Release'].replace('', np.nan)
 df['Weekend_Release']=df['Holiday_Release'].fillna(2.0)
 df['Weekend_Release']=df['Holiday_Release'].astype(float)
 #df['synopsis_sc']=df['synopsis_sc'].astype(int)
-
 #df['Release_Month']=df['Release_Month'].replace('', np.nan)
 #df['Release_Month']=df['Release_Month'].fillna(2.0)
 #df['Release_Month']=df['Release_Month'].astype(float)
-
 #get dummies to category variable
 dummies_Studio=pd.get_dummies(df['Studio'],prefix ='Studio')
 dummies_Wtitten=pd.get_dummies(df['Written By'],prefix ='Written By')
@@ -134,10 +137,11 @@ del df['Release_Day']
 del df['Release_Month']
 del df['Release_Type']
 
+#Create dependent variable
+
 df['difference']=df['critic_score']-df['audience_score']
 
-
-
+#Split the train/test data
 
 df=df.fillna(0)
 cols = [c for c in df.columns if c not in ['movie_id','difference']]
@@ -150,24 +154,20 @@ data_train = df_train[cols]
 data_test = df_test[cols]
 
 
-
-
-#lm = linear_model.LinearRegression()
-#model = lm.fit(data_train,label_train)
-#pred=model.predict(data_test)
-
-from sklearn.ensemble import RandomForestRegressor
-regr = RandomForestRegressor(max_depth=2, random_state=0)
-regr.fit(data_train,label_train)
-pred=regr.predict(data_test)
-#MSE Score
-from sklearn.metrics import mean_squared_error
-mean_squared_error(label_test, pred)  
-#R2
-from sklearn.metrics import r2_score
-r2_score(label_test, pred) 
+#Train Model
 
 from sklearn.neural_network import MLPClassifier
 clf = MLPClassifier(random_state=49)                                          
 clf.fit(data_train,label_train)
 pred=clf.predict(data_test)
+
+#Evaluation
+#MSE Score
+from sklearn.metrics import mean_squared_error
+mean_squared_error(label_test, pred)  
+
+#R2
+from sklearn.metrics import r2_score
+r2_score(label_test, pred) 
+
+
