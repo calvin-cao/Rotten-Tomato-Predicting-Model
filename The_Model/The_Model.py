@@ -168,9 +168,18 @@ for x in A:
     test[str(a[0])] = []
     for n in a[1:]:
         test[str(a[0])].append(n)
+del(A)
+print(len(test))
 
-for x in test['10']:
-    print(str(x))
-print(len(test['10']))
+# [2] = Cast, [6] = Genre
+def GCP_Lookup(Dict):
+    for every_movie in Dict:
+        GE = test[str(every_movie)][6][1:-1].split(',').strip() # Genre
+        CA = test[str(every_movie)][2][1:-1].split(',').strip() # Cast
+        P = []
+        for x in CA:
+            for s in GE:
+                A.append(str(x) + ' + ' + str(s))
 
-def run(List):
+    return
+

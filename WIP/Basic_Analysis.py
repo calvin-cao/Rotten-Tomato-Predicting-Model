@@ -73,7 +73,7 @@ import numpy as np
 """
 
 # REstart
-PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt"
+PATH = "C:/Local/RT/test.txt"
 fh = open(PATH, 'r', encoding = 'utf-8')
 test = {}
 for line in fh:
@@ -93,11 +93,11 @@ for every_movie in test:
     #BO: test[str(every_movie)][10]
     #Critics_Score: test[str(every_movie)][0]
     #Audience_Score: test[str(every_movie)][1]
-    GE = test[str(every_movie)][4][1:-1].strip().split(',') # Genre
-    CA = test[str(every_movie)][13][1:-2].strip().split(',') # Cast
+    GE = test[str(every_movie)][6][1:-1].strip().split(',') # Genre
+    CA = test[str(every_movie)][2][1:-1].strip().split(',') # Cast
     BO = test[str(every_movie)][10][1:-1].strip().replace('$','').replace(',','') # BO
-    CS = test[str(every_movie)][0].strip() # Critics_Score
-    AS = test[str(every_movie)][1].strip() # Audience_Score
+    CS = test[str(every_movie)][1][:-1].strip() # Critics_Score
+    AS = test[str(every_movie)][0][:-1].strip() # Audience_Score
     A = []
     for x in CA:
         for s in GE:
@@ -124,7 +124,7 @@ for every_movie in test:
             continue
     GE,CA,BO,CS,AS = None, None, None, None, None
 
-print(GC_pair_temp['LoganLerman + Action&Adventure'])
+print(GC_pair_temp['Logan Lerman + Action & Adventure'])
 print(len(GC_pair_temp))
 
 """
@@ -152,9 +152,13 @@ for x in GC_pair_temp:
         for v in GC_pair_temp[x]:
             if v == 'None':
                 continue
+            try:
+                ad = int(v)
+            except:
+                continue
             else:
-                s = s + float(v)
-        GC_pair[x] = s/l
+                s = s + float(ad)
+        GC_pair[x] = [s/l, l]
 print(GC_pair['LoganLerman + Action&Adventure'])
 print(len(GC_pair))
 
@@ -164,5 +168,6 @@ for x in GC_pair:
     if not GC_pair[str(x)]:
         continue
     else:
-        fh.write(str(x.strip()) + '\t' + str(GC_pair[str(x)]) + '\n')
+        fh.write(str(x.strip()) + '\t' + str(GC_pair[str(x)][0]) + '\t' + str(GC_pair[str(x)][0]) + '\n')
+        
 fh.close()
