@@ -222,6 +222,7 @@ def MakeDF(FP):
     df['critic_score'] = df['critic_score'].replace('None', np.nan)
     df['critic_score'] = df['critic_score'].str.strip("%")
     df['critic_score'] = df['critic_score'].astype(float)
+    df['difference'] = df['critic_score'] - df['audience_score']
     del df['actor_links']
     del df['Box Office']
     df['Runtime']=df['Runtime'].replace('None', np.nan)
@@ -261,14 +262,12 @@ def MakeDF(FP):
 def SCENE2(TRAIN,TEST):
     ### For Train Set ###
     data_train = MakeDF(TRAIN)
-    data_train['difference'] = data_train['critic_score'] - data_train['audience_score']
     data_train = data_train.fillna(0)
     cols_train = [c for c in data_train.columns if c not in ['movie_id','difference']]
     data_train = data_train[cols_train]
     labels_train = data_train['difference'].values
     ### For Test Set ###
     data_test = MakeDF(TEST)
-    data_test['difference'] = data_test['critic_score'] - data_test['audience_score']
     data_test = data_test.fillna(0)
     cols_test = [c for c in data_test.columns if c not in ['movie_id','difference']]
     data_test = data_test[cols_test]
