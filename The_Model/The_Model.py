@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import calendar
 import timestring
 from textblob import TextBlob
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score
 
 
 
@@ -169,4 +171,6 @@ for x in A:
 
 for x in test['10']:
     print(str(x))
+print(len(test['10']))
 
+def run(List):
