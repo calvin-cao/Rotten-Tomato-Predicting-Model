@@ -22,7 +22,15 @@ from sklearn.metrics import r2_score
 
 
 ### SCENARIO 1 ###
-def DoEverything(FD):
+def f(df_polarity_desc):
+    if df_polarity_desc['sentiment'] > 0:
+        val = "2"
+    elif df_polarity_desc['sentiment'] == 0:
+        val = "1"
+    else:
+        val = "0"
+    return val
+def SCENE1(FD):
     df=pd.read_csv(FD, sep ='\t')
     df=pd.DataFrame(data = df)
     #Time Processing
@@ -66,19 +74,11 @@ def DoEverything(FD):
             df['Release_Type'][i] = 'wide'
     #Synopsis Processing
     bloblist_desc = list()
-    df_review_str = df['synopsis'].astype(str）
+    df_review_str = df['synopsis'].astype(str)
     for row in df_review_str:
         blob = TextBlob(row)
         bloblist_desc.append((row,blob.sentiment.polarity, blob.sentiment.subjectivity))
         df_polarity_desc = pd.DataFrame(bloblist_desc, columns = ['summary','sentiment','polarity'])
-    def f(df_polarity_desc):
-        if df_polarity_desc['sentiment'] > 0:
-            val = "2"
-        elif df_polarity_desc['sentiment'] == 0:
-            val = "1"
-        else:
-            val = "0"
-        return val
     df['synopsis_sc'] = df_polarity_desc.apply(f, axis=1)
     #Clean the rest data
     df['audience_score'] = df['audience_score'].replace('None', np.nan)
@@ -148,3 +148,6 @@ def DoEverything(FD):
     r2 = r2_score(label_test, pred) 
     return mse, r2
 
+print(SCENE1("C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"))
+
+### SCENARIO 2 ###
