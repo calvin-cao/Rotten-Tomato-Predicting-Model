@@ -17,6 +17,7 @@ import sklearn
 from multiprocessing import Pool, cpu_count
 import gc; gc.enable()
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 
@@ -254,25 +255,25 @@ def MakeDF(PF):
     del df['Release_Month']
     del df['Release_Type']
     #Create dependent variable
-    df['difference']=df['critic_score']-df['audience_score']
-    #Split the train/test data
-    df=df.fillna(0)
-    cols = [c for c in df.columns if c not in ['movie_id','difference']]
-    features = df[cols]
-    #data_test= pro[cols]
-    labels = df['difference'].values
-    #label_test= pro['difference'].values]
+    df['difference'] = df['critic_score'] - df['audience_score']
     return df
 def SCENE2(TRAIN,TEST):
     ### For Train Set ###
     data_train = MakeDF(TRAIN)
+    #Split the train/test data
+    data_train = data_train.fillna(0)
+    cols = [c for c in data_train.columns if c not in ['movie_id','difference']]
+    features = data_train[cols]
+    #data_test = pro[cols]
+    labels = data_train['difference'].values
+    #label_test = pro['difference'].values]
     ### For Test Set ###
     data_test = MakeDF(TEST)
     #Train Model
     clf = MLPClassifier(random_state=49)
     #if we use pro dataset we don't need to fit                                         
     clf.fit(data_train,label_train)
-    pred=clf.predict(data_test)
+    pred = clf.predict(data_test)
     #Evaluation
     #MSE Score
     mse = mean_squared_error(label_test, pred)  
