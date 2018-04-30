@@ -16,8 +16,6 @@ import calendar
 import timestring
 from textblob import TextBlob
 
-
-
 ### Read everything ###
 PATH = input('\nWhere is eveyrthing?\n') # Input root folder directory
 if len(PATH) < 1:
@@ -159,7 +157,8 @@ def f(df_polarity_desc):
         val = "0"
     return val
 df['synopsis_sc'] = df_polarity_desc.apply(f, axis=1)
-
+ 
+#data cleaning
 df['Runtime']=df['Runtime'].replace('None', np.nan)
 df['Runtime']=df['Runtime'].str.strip("minutes")
 df['Runtime']=df['Runtime'].astype(float)
@@ -176,6 +175,7 @@ df['Release_Month']=df['Release_Month'].replace('', np.nan)
 df['Release_Month']=df['Release_Month'].fillna(2.0)
 df['Release_Month']=df['Release_Month'].astype(float)
 
+#get dummies to category variable
 dummies_Studio=pd.get_dummies(df['Studio'],prefix ='Studio')
 dummies_Wtitten=pd.get_dummies(df['Written By'],prefix ='Written By')
 dummies_Directed=pd.get_dummies(df['Directed By'],prefix='Directed By') 
@@ -194,7 +194,10 @@ del df['Written By']
 del df['Release_Date']
 del df['Release_Day']
 
+#create dependent variable
 df['difference']=df['critic_score']-df['audience_score']
+
+#split train/test data
 from sklearn import *
 import sklearn
 from multiprocessing import Pool, cpu_count
@@ -209,12 +212,13 @@ random_state=seed)
 data_train = df_train[cols]
 data_test = df_test[cols]
 
+#model part
 from sklearn.neural_network import MLPClassifier
 clf = MLPClassifier(random_state=49)                                          
 clf.fit(data_train,label_train)
-#use hard voting to predict (majority voting)
 pred=clf.predict(data_test) 
 #print accuracy
+from sklearn.metrics import accuracy_score
 print (accuracy_score(pred,label_test))
 
 
