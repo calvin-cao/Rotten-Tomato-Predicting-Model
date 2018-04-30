@@ -93,8 +93,8 @@ for every_movie in test:
     #BO: test[str(every_movie)][10]
     #Critics_Score: test[str(every_movie)][0]
     #Audience_Score: test[str(every_movie)][1]
-    GE = test[str(every_movie)][6][1:-1].strip().split(',') # Genre
-    CA = test[str(every_movie)][2][1:-1].strip().split(',') # Cast
+    GE = test[str(every_movie)][6].strip().split(',') # Genre
+    CA = test[str(every_movie)][2].strip().split(',') # Cast
     BO = test[str(every_movie)][10][1:-1].strip().replace('$','').replace(',','') # BO
     CS = test[str(every_movie)][1][:-1].strip() # Critics_Score
     AS = test[str(every_movie)][0][:-1].strip() # Audience_Score
@@ -158,8 +158,8 @@ for x in GC_pair_temp:
                 continue
             else:
                 s = s + float(ad)
-        GC_pair[x] = [s/l, l]
-print(GC_pair['LoganLerman + Action&Adventure'])
+        GC_pair[x] = [s/l, len(GC_pair_temp[x])]
+print(GC_pair['Logan Lerman + Action & Adventure'])
 print(len(GC_pair))
 
 PATH = 'C:/Local/RT/'
@@ -168,6 +168,5 @@ for x in GC_pair:
     if not GC_pair[str(x)]:
         continue
     else:
-        fh.write(str(x.strip()) + '\t' + str(GC_pair[str(x)][0]) + '\t' + str(GC_pair[str(x)][0]) + '\n')
-        
+        fh.write(str(x.strip()) + '\t' + str(GC_pair[str(x)][0]) + '\t' + str(GC_pair[str(x)][1]) + '\n')
 fh.close()
