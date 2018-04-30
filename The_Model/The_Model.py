@@ -149,9 +149,10 @@ def SCENE1(FD):
 
 start_time = time.clock()
 print(SCENE1(input("\nWhere is the dataset?\n")))
-strftime("%Y-%m-%d_%H-%M-%S")
+print('Pragram SCENE1 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S"))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
-print("--- %s seconds ---" % (time.clock() - start_time))
+print('Program took: ' + "--- %s seconds ---" % (time.clock() - start_time))
+
 
 
 ### SCENARIO 2 ###
@@ -262,33 +263,30 @@ def MakeDF(FP):
 def SCENE2(TRAIN,TEST):
     ### For Train Set ###
     data_train = MakeDF(TRAIN)
-    #Split the train/test data
     data_train = data_train.fillna(0)
-    cols = [c for c in data_train.columns if c not in ['movie_id','difference']]
-    features = data_train[cols]
-    #data_test = pro[cols]
-    labels = data_train['difference'].values
-    #label_test = pro['difference'].values
-
+    cols_train = [c for c in data_train.columns if c not in ['movie_id','difference']]
+    data_train = data_train[cols_train]
+    labels_train = data_train['difference'].values
     ### For Test Set ###
     data_test = MakeDF(TEST)
-    #Split the train/test data
-    data_train = data_train.fillna(0)
-    cols = [c for c in data_train.columns if c not in ['movie_id','difference']]
-    features = data_train[cols]
-    #data_test = pro[cols]
-    labels = data_train['difference'].values
-    #label_test = pro['difference'].values
-
+    data_test = data_test.fillna(0)
+    cols_test = [c for c in data_test.columns if c not in ['movie_id','difference']]
+    data_test = data_test[cols_test]
+    labels_test = data_test['difference'].values
     ### Train Model ###
     clf = MLPClassifier(random_state=49)
     #if we use pro dataset we don't need to fit                                         
-    clf.fit(data_train,label_train)
+    clf.fit(data_train, labels_train)
     pred = clf.predict(data_test)
     #Evaluation
     #MSE Score
-    mse = mean_squared_error(label_test, pred)  
+    mse = mean_squared_error(labels_test, pred)  
     #R2
-    r2 = r2_score(label_test, pred)
+    r2 = r2_score(labels_test, pred)
     return mse, r2
-SCENE2()
+
+start_time = time.clock()
+print(SCENE2(input("\nWhere is the your train?\n"), input("\nWhere is the your test?\n")))
+print('Pragram SCENE2 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S"))
+#"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
+print('Program took: ' + "--- %s seconds ---" % (time.clock() - start_time))
