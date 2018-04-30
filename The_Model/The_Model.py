@@ -216,10 +216,10 @@ df, df_test, train, test, GC_pair = ReadEverything("C:/Users/calvi/Documents/Git
 
 
 
-
+"""
 ### Calvin's Model v0.1 ###
 # Train:
-"""
+
 GC_pair_temp = dict()
 for every_movie in train:
     GE = train[str(every_movie)][6].strip().split(',') # Genre
@@ -270,7 +270,7 @@ for x in GC_pair_temp:
                 s = s + float(ad)
         GC_pair[x] = [s/l, len(GC_pair_temp[x])]
 del(GC_pair_temp)
-"""
+
 
 # Define
 # [2] = Cast, [6] = Genre
@@ -300,3 +300,4 @@ def GCP_Lookup(Dict, Pair):
 GCP_Lookup(test, GC_pair)
 for x in test:
     print(test[x][1])
+"""

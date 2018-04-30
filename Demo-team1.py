@@ -18,8 +18,8 @@ import gc; gc.enable()
 
 #Read Data
 
-df=pd.read_csv('test_2018-04-29_18-08-57.txt', sep='\t')
-df=pd.DataFrame(data=df)
+df=pd.read_csv('test_2018-04-29_18-08-57.txt', sep ='\t')
+df=pd.DataFrame(data = df)
 
 
 #Time Processing
