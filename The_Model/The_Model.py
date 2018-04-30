@@ -20,6 +20,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
+from time import gmtime, strftime
 
 
 ### SCENARIO 1 ###
@@ -148,10 +149,11 @@ def SCENE1(FD):
 
 start_time = time.clock()
 print(SCENE1(input("\nWhere is the dataset?\n")))
+strftime("%Y-%m-%d_%H-%M-%S")
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
 print("--- %s seconds ---" % (time.clock() - start_time))
 
-"""
+
 ### SCENARIO 2 ###
 def f(df_polarity_desc):
     if df_polarity_desc['sentiment'] > 0:
@@ -161,9 +163,9 @@ def f(df_polarity_desc):
     else:
         val = "0"
     return val
-def MakeDF(PF):
+def MakeDF(FP):
     #Read Data
-    df=pd.read_csv(PF, sep='\t')
+    df=pd.read_csv(FP, sep='\t')
     df=pd.DataFrame(data=df)
     #Time Processing
     df['Release_Date'] = ''
@@ -206,7 +208,7 @@ def MakeDF(PF):
             df['Release_Type'][i] = 'wide'
     #Synopsis Processing
     bloblist_desc = list()
-    df_review_str = df['synopsis'].astype(str）
+    df_review_str = df['synopsis'].astype(str)
     for row in df_review_str:
         blob = TextBlob(row)
         bloblist_desc.append((row,blob.sentiment.polarity, blob.sentiment.subjectivity))
@@ -266,10 +268,19 @@ def SCENE2(TRAIN,TEST):
     features = data_train[cols]
     #data_test = pro[cols]
     labels = data_train['difference'].values
-    #label_test = pro['difference'].values]
+    #label_test = pro['difference'].values
+
     ### For Test Set ###
     data_test = MakeDF(TEST)
-    #Train Model
+    #Split the train/test data
+    data_train = data_train.fillna(0)
+    cols = [c for c in data_train.columns if c not in ['movie_id','difference']]
+    features = data_train[cols]
+    #data_test = pro[cols]
+    labels = data_train['difference'].values
+    #label_test = pro['difference'].values
+
+    ### Train Model ###
     clf = MLPClassifier(random_state=49)
     #if we use pro dataset we don't need to fit                                         
     clf.fit(data_train,label_train)
@@ -281,4 +292,3 @@ def SCENE2(TRAIN,TEST):
     r2 = r2_score(label_test, pred)
     return mse, r2
 SCENE2()
-"""
