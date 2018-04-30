@@ -146,13 +146,13 @@ def SCENE1(FD):
     #R2
     r2 = r2_score(label_test, pred) 
     return mse, r2
-
+"""
 start_time = time.clock()
 print(SCENE1(input("\nWhere is the dataset?\n")))
 print('Pragram SCENE1 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S"))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
 print('Program took: ' + "--- %s seconds ---" % (time.clock() - start_time))
-
+"""
 
 
 ### SCENARIO 2 ###
