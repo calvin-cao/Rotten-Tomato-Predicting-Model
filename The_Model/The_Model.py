@@ -149,9 +149,9 @@ def SCENE1(FD):
 """
 start_time = time.clock()
 print(SCENE1(input("\nWhere is the dataset?\n")))
-print('Pragram SCENE1 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S"))
+print('Pragram SCENE1 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S")))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
-print("--- %s seconds ---" % (time.clock() - start_time))
+print("Program took: " + "--- %s seconds ---" % (time.clock() - start_time))
 """
 
 
@@ -285,8 +285,8 @@ def SCENE2(TRAIN,TEST):
     r2 = r2_score(labels_test, pred)
     return mse, r2
 
-start_time = time.time()
+start_time = time.clock()
 print(SCENE2(input("\nWhere is the your train?\n"), input("\nWhere is the your test?\n")))
-print('Pragram SCENE2 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S"))
+print('Pragram SCENE2 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S")))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
-print("--- %s seconds ---" % (time.time() - start_time))
+print("Program took: " + "--- %s seconds ---" % (time.clock() - start_time))
