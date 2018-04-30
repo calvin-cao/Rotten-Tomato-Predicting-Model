@@ -285,8 +285,8 @@ def SCENE2(TRAIN,TEST):
     r2 = r2_score(labels_test, pred)
     return mse, r2
 
-start_time = time.clock()
+start_time = time.time()
 print(SCENE2(input("\nWhere is the your train?\n"), input("\nWhere is the your test?\n")))
 print('Pragram SCENE2 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S"))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
-print("--- %s seconds ---" % (time.clock() - start_time))
+print("--- %s seconds ---" % (time.time() - start_time))
