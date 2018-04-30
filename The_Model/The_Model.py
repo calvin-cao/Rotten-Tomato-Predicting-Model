@@ -146,13 +146,13 @@ def SCENE1(FD):
     #R2
     r2 = r2_score(label_test, pred) 
     return mse, r2
-"""
+
 start_time = time.clock()
 print('Pragram SCENE1 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S")))
 print(SCENE1(input("\nWhere is the dataset?\n")))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
 print("Program took: " + "--- %s seconds ---" % (time.clock() - start_time))
-"""
+
 
 
 ### SCENARIO 2 ###  (We have train and test sets separately)
@@ -283,12 +283,12 @@ def SCENE2(TRAIN,TEST):
     #R2
     r2 = r2_score(labels_test, pred)
     return mse, r2
-
+"""
 start_time = time.clock()
 print('Pragram SCENE2 started at: ' + str(strftime("%Y-%m-%d_%H-%M-%S")))
 print(SCENE2(input("\nWhere is your train?\n"), input("\nWhere is your test?\n")))
 #"C:/Users/calvi/Documents/GitHub/RottenTomatoPredictingModel/The_Model/test.txt"
 print("Program took: " + "--- %s seconds ---" % (time.clock() - start_time))
-
+"""
 
 ### SCENARIO 3 ###  (We only have the test set)
