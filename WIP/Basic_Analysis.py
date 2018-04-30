@@ -72,9 +72,6 @@ import numpy as np
 # help(np)
 """
 
-
-
-
 # REstart
 PATH = "C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt"
 fh = open(PATH, 'r', encoding = 'utf-8')
@@ -87,6 +84,8 @@ for line in fh:
 fh.close()
 # print(test['10'])
 
+
+# GC_PAIR STARTS HERE:
 GC_pair_temp = dict()
 for every_movie in test:
     #Genre: test[str(every_movie)][4]
@@ -94,34 +93,41 @@ for every_movie in test:
     #BO: test[str(every_movie)][10]
     #Critics_Score: test[str(every_movie)][0]
     #Audience_Score: test[str(every_movie)][1]
-    GE = test[str(every_movie)][4][1:-1].strip().split(',')
-    CA = test[str(every_movie)][13][1:-2].strip().split(',')
-    BO = test[str(every_movie)][10][1:-1].strip().replace('$','').replace(',','')
-    CS = test[str(every_movie)][0].strip()
-    AS = test[str(every_movie)][1].strip()
+    GE = test[str(every_movie)][4][1:-1].strip().split(',') # Genre
+    CA = test[str(every_movie)][13][1:-2].strip().split(',') # Cast
+    BO = test[str(every_movie)][10][1:-1].strip().replace('$','').replace(',','') # BO
+    CS = test[str(every_movie)][0].strip() # Critics_Score
+    AS = test[str(every_movie)][1].strip() # Audience_Score
     A = []
     for x in CA:
         for s in GE:
-            A.append(str(x) + '+' + str(s))
+            A.append(str(x) + ' + ' + str(s))
     for a in A:
         if str(a) in GC_pair_temp:
             try:
-                GC_pair_temp[str(a)].append(str(CS))
+                if not CS:
+                    continue
+                else:
+                    GC_pair_temp[str(a)].append(str(CS))
             except:
                 continue
         elif not str(a) in GC_pair_temp:
             GC_pair_temp[str(a)] = []
             try:
-                GC_pair_temp[str(a)].append(str(CS))
+                if not CS:
+                    continue
+                else:
+                    GC_pair_temp[str(a)].append(str(CS))
             except:
                 continue
         else:
             continue
     GE,CA,BO,CS,AS = None, None, None, None, None
 
-print(GC_pair_temp['LoganLerman+Action&Adventure'])
+print(GC_pair_temp['LoganLerman + Action&Adventure'])
 print(len(GC_pair_temp))
 
+"""
 fh = open('C:/Local/RT/GC_pair_temp.txt', 'w', encoding = 'utf-8')
 for x in GC_pair_temp:
     fh.write(x + '\t')
@@ -133,21 +139,23 @@ for x in GC_pair_temp:
         if i == len(GC_pair_temp[x]):
             fh.write(str(s) + '\n')
 fh.close()
+"""
 
-
-# GC_PAIR STARTS HERE:
 GC_pair = dict()
 for x in GC_pair_temp:
     l = 0
-    s = 0
+    s = 0.0
     l = len(GC_pair_temp[x])
     if l == 0:
-        GC_pair[x] = 'NA'
+        continue
     if not l == 0:
         for v in GC_pair_temp[x]:
-            s = s + int(v)
+            if v == 'None':
+                continue
+            else:
+                s = s + float(v)
         GC_pair[x] = s/l
-print(GC_pair['LoganLerman+Action&Adventure'])
+print(GC_pair['LoganLerman + Action&Adventure'])
 print(len(GC_pair))
 
 PATH = 'C:/Local/RT/'

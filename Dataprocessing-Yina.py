@@ -67,13 +67,11 @@ for i in range(0, 49):
 #Evaluate for synopsis
 from textblob import TextBlob
 bloblist_desc = list()
-
 df_review_str=df['synopsis'].astype(str)
 for row in df_review_str:
     blob = TextBlob(row)
     bloblist_desc.append((row,blob.sentiment.polarity, blob.sentiment.subjectivity))
     df_polarity_desc = pd.DataFrame(bloblist_desc, columns = ['summary','sentiment','polarity'])
- 
 def f(df_polarity_desc):
     if df_polarity_desc['sentiment'] > 0:
         val = "1"
@@ -82,6 +80,4 @@ def f(df_polarity_desc):
     else:
         val = "-1"
     return val
-
 df['synopsis_sc'] = df_polarity_desc.apply(f, axis=1)
-
