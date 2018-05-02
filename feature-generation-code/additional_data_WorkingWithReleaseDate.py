@@ -18,8 +18,6 @@ df['Release_Day'] = ''
 df['Weekend_Release'] = ''
 df['Holiday_Release'] = ''
 df['Release_Type'] = ''
-df['Difference'] = ''
-
 
 holidays = ['1-1', 
             #Memorial Day
@@ -59,23 +57,6 @@ for i in range(0, len(df.index) - 1):
         df['Holiday_Release'][i] = 0
         df['Release_Type'][i] = 'wide'
     
-    try:
-        if int(df['critic_score'][i].replace('%', '')) == 0:
-            critic_score = 0
-        else:
-            critic_score = int(df['critic_score'][i].replace('%', ''))
-        
-        if int(df['audience_score'][i].replace('%', '')) == 0:
-            audience_score = 0
-        else:
-            audience_score = int(df['audience_score'][i].replace('%', ''))
-  
-        df['Difference'][i] = critic_score - audience_score
-        
-    except:
-        df['Difference'][i] = None
-        
-
 
 
 #df.head(10)
