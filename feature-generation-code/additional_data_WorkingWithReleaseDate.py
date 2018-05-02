@@ -59,7 +59,6 @@ for i in range(0, len(df.index) - 1):
         df['Holiday_Release'][i] = 0
         df['Release_Type'][i] = 'wide'
     
-    
     try:
         if int(df['critic_score'][i].replace('%', '')) == 0:
             critic_score = 0
@@ -70,8 +69,7 @@ for i in range(0, len(df.index) - 1):
             audience_score = 0
         else:
             audience_score = int(df['audience_score'][i].replace('%', ''))
-        
-            
+  
         df['Difference'][i] = critic_score - audience_score
         
     except:
