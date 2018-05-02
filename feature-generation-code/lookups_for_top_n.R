@@ -1,16 +1,18 @@
----
-title: "R Notebook"
-output: html_notebook
----
- 
+#####################################################
 
+# Get the lookup tables for popularity 
+
+#install.packages("stringr")
+#install.packages("splitstackshape")
+#install.packages("reshape2")
+#install.packages("dplyr")
 library(splitstackshape)
 library(reshape2)
 library(stringr)
 library(dplyr)
 
 # Importing
-rottom <- read.csv("C:/Local/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/test_2018-04-22_02-55-10.txt", sep = "\t", stringsAsFactors = FALSE) #test_2018-04-23_19-52-54.txt
+rottom <- read.csv("test_2018-04-22_02-55-10.txt", sep = "\t", stringsAsFactors = FALSE) 
 
 # Extracting year
 rottom$Yr <- str_sub(rottom$In_Theaters_date, -2, -1)
