@@ -1,4 +1,4 @@
-#Use this file to understand the process of running the model
+# Use this file to understand the process of running the model
 
 - -Firstly, set the working directory to the location where the training dataset is placed!
 - -Run the model_team1.py file completely
