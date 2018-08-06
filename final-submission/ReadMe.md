@@ -1,9 +1,9 @@
 # Use this file to understand the process of running the model
 
---Firstly, set the working directory to the location where the training dataset is placed!
+--Firstly, set the working directory to the location where the training dataset is placed!  
 --Run the model_team1.py file completely
 
---If the console does not progress and gets stuck at the warning message: 
+--If the console does not progress and gets stuck at the warning message:   
     -- Run the query one chunk at a time. The entire query has been divided into 7 chunks
     
 --We have kept the other models that we tried along with the calculated MSE below the actual code commented out
