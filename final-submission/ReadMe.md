@@ -19,12 +19,12 @@
     --Runtime  
     
 --We are working on the following features to be included as future work  
-    --Cast Popularity Score  
-    --Director Popularity Score  
-    --Writer Popularity Score  
-    --Overall Popularity Score  
-    --Actor-Actor, Actor-Director, Director-Writer pair presence  
-    --Franchisee Power  
+        --Cast Popularity Score  
+        --Director Popularity Score  
+        --Writer Popularity Score  
+        --Overall Popularity Score  
+        --Actor-Actor, Actor-Director, Director-Writer pair presence  
+        --Franchisee Power  
       
     
 Link to the github repo: https://github.com/WindRainbow/Rotten-Tomato-Predicting-Model
