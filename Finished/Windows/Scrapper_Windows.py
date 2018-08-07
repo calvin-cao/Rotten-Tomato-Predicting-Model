@@ -1,10 +1,14 @@
+
 import urllib.request, json
 import re
 import time
 import requests
 import os
 from colorama import Fore, Back, Style
+import math
 
+
+### Step 0a: Creating the working folder in the directory ###
 PATH = input('Enter desired file path: ')
 if len(PATH) < 1:
     PATH = 'C:/Local'
@@ -12,16 +16,12 @@ if len(PATH) < 1:
 if not os.path.exists(PATH + '/RT/'):
 	os.makedirs(PATH + '/RT/')
 
-time.sleep(1)
-print(Fore.LIGHTGREEN_EX + 'Starting Step 1')
-print(Style.RESET_ALL)
-time.sleep(1)
 
-### Step 1:  ###
-def run1(url,filename,pagenumber):
+### Step 0b: Defining the functions ###
+
+def grabURLs(url,filename,pagenumber):
 	pageNum = int(pagenumber)
 	for i in range(1, pageNum + 1):
-		print(filename + ': '+ 'Page', i)
 		if i == 1:
 			pageLink = url
 		else:
@@ -30,8 +30,9 @@ def run1(url,filename,pagenumber):
 			try:
 				with urllib.request.urlopen(pageLink) as url1:
 					data=json.loads(url1.read().decode())
+				break
 			except Exception as e:
-				print('failed attept',ii)
+				log1.write(filename + ': Page ' + i + ' - Failed attempt ' + ii + '\n')
 				time.sleep(2)
 		data_str = str(data)
 		url_location = [m.start() for m in re.finditer("'url':", data_str)]
@@ -44,21 +45,159 @@ def run1(url,filename,pagenumber):
 				A.append(movie_url)
 			else:
 				continue
-		print(Fore.GREEN + 'Done')
+		log1.write(filename + ': Page ' + i + ' - Done' + '\n')
 		print(Style.RESET_ALL)
 	return
 
-U = ['https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=1&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=2&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=4&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=5&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=6&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=8&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=9&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=10&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=11&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=13&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=18&certified&sortBy=release&type=dvd-streaming-all','https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=14&certified&sortBy=release&type=dvd-streaming-all',]
 
-N = ['Action', 'Animation', 'Art&Foreign', 'Classics', 'Comedy', 'Documentary', 'Drama', 'Horror', 'Kids&Family', 'Mystery', 'Romance', 'Scifi&Fantasy']
+def getHTML(partx):
+	with open(PATH + '/RT/RT_All_URLs_Gen1_12_Part_' + str(partx) + '.txt', 'r') as myfile:
+		urls = myfile.read()
+	urls_ls = urls.split('\n')
+	c = 0
+	failed_ls = []
+	for x in urls_ls:
+		c = c + 1
+		log2.write(str(c) + '. ' + x[25:] + ' - ')
+		for i in range(5):
+			page = None
+			pagetext = None
+			fh = None
+			log2.write('Attempt ' + str(i+1) + ': ')
+            
+			try:
+				page = requests.get('https://' + x)
+				if not page:
+					log2.write('Page request error' + '\n')
+					time.sleep(2)
+					continue
+				pagetext = page.text
+				if not pagetext:
+					log2.write('Page decode error' + '\n')
+					time.sleep(0.5)
+					continue
+				log2.write('Good page response, ')
+			except:
+				log2.write('Failed page acquisition' + '\n')
+				time.sleep(1)
+				continue
+            
+			try:
+				fh = open(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
+				if not fh:
+					log2.write('File handle assignment error' + '\n')
+					time.sleep(0.5)
+					continue
+			except:
+				log2.write('File handle error' + '\n')
+				time.sleep(0.5)
+				continue
+            
+			try:
+				fh.write(pagetext)
+				fh.close()
+				log2.write('Good file, ')
+			except:
+				fh.close()
+				log2.write('File writing error' + '\n')
+				if os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+					os.remove(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html')
+					time.sleep(1)
+					continue
+				else:
+					time.sleep(1)
+					continue
+                
+			log2.write('Done' + '\n')
+			time.sleep(0.1)
+			break
+		if not os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
+			failed_ls.append(x)
+			continue
+	fa = open(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/Failed_list_Part_' + str(partx) + '.txt', 'w')
+	for n in failed_ls:
+		fa.write(str(n) + '\n')
+	return
 
-P = [97, 16, 69, 47, 156, 54, 258, 53, 31, 95, 54, 50]
-# P = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
 
+
+
+### Step 1: Loop over all the webpages to  ###
+time.sleep(1)
+print(Fore.LIGHTGREEN_EX + 'Starting Step 1')
+print(Style.RESET_ALL)
+time.sleep(1)
+
+
+URLs = ['https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=1&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=2&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=4&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=5&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=6&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=8&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=9&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=10&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=11&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=13&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=18&certified&sortBy=release&type=dvd-streaming-all',
+        'https://www.rottentomatoes.com/api/private/v2.0/browse?maxTomato=100&maxPopcorn=100&services=amazon%3Bhbo_go%3Bitunes%3Bnetflix_iw%3Bvudu%3Bamazon_prime%3Bfandango_now&genres=14&certified&sortBy=release&type=dvd-streaming-all']
+
+#Genre          Genre_id
+#Action         	1
+#Animation      	2
+#Art&Foreign    	4
+#Classics	        5
+#Comedy	       		6
+#Documentary    	8
+#Drama          	9
+#Horror         	10
+#Kids&Family    	11
+#Mystery        	13
+#Romance        	18
+#Scifi&Fantasy		14
+
+
+Genres = ['Action', 
+          'Animation', 
+          'Art&Foreign', 
+          'Classics', 
+          'Comedy', 
+          'Documentary', 
+          'Drama', 
+          'Horror', 
+          'Kids&Family', 
+          'Mystery', 
+          'Romance', 
+          'Scifi&Fantasy']
+
+Pages = []
 A = []
 
-for i in range(len(U)):
-    run1(U[i],N[i],P[i])
+for url in URLs:
+    for ii in range(5):
+        try:
+            with urllib.request.urlopen(url) as url1:
+                data=json.loads(url1.read().decode())
+            break
+        except Exception as e:
+            print('Failed attempt ',ii)
+            time.sleep(2)
+    
+    data_str = str(data)
+    count_loc = [m.start() for m in re.finditer("'total':", data_str)]
+    for x in count_loc:
+        count_start = x
+        count_end = data_str.find('},', count_start)
+        total_movies = math.ceil(int(data_str[count_start + 9 : count_end])/32)
+        Pages.append(total_movies)
+
+
+log1 = open(PATH + '/RT/log_grabURLs.txt', 'w')
+
+for i in range(len(URLs)):
+    grabURLs(URLs[i],Genres[i],Pages[i])
+    
+log1.close()
 
 print('List length: ' + str(len(A)) + '\n')
 time.sleep(2)
@@ -78,8 +217,9 @@ for x in range(0,len(A),600):
 	for s in A[x : x + 600]:
 		fh.write(str(s) + '\n')
 	fh.close()
-if A:
-	del A
+#if A:
+#	del A
+
 
 print(Fore.LIGHTGREEN_EX + 'Step 2 completed, proceed in 3 seconds...')
 print(Style.RESET_ALL)
@@ -89,89 +229,19 @@ print(Style.RESET_ALL)
 time.sleep(1)
 
 ### Step 3: Collect main pages for each movie on the URL list (.html) ###
-def run4(partx):
-	with open(PATH + '/RT/RT_All_URLs_Gen1_12_Part_' + str(partx) + '.txt', 'r') as myfile:
-		urls = myfile.read()
-	urls_ls = urls.split('\n')
-	c = 0
-	failed_ls = []
-	for x in urls_ls:
-		c = c + 1
-		print(str(c) + '. ' + x[25:] + ':')
-		for i in range(5):
-			page = None
-			pagetext = None
-			fh = None
-			print(Fore.BLUE + 'Attempt ' + str(i+1) + ':')
-			print(Style.RESET_ALL)
-			try:
-				page = requests.get('https://' + x)
-				if not page:
-					print(Fore.LIGHTYELLOW_EX + '  Page request error')
-					print(Style.RESET_ALL)
-					time.sleep(2)
-					continue
-				pagetext = page.text
-				if not pagetext:
-					print((Fore.LIGHTYELLOW_EX + '  Page decode error'))
-					print(Style.RESET_ALL)
-					time.sleep(0.5)
-					continue
-				print(Fore.GREEN + '  Good page response')
-				print(Style.RESET_ALL)
-			except:
-				print(Fore.LIGHTYELLOW_EX + '  Failed page acquisition')
-				print(Style.RESET_ALL)
-				time.sleep(1)
-				continue
-			try:
-				fh = open(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html', 'w')
-				if not fh:
-					print(Fore.LIGHTYELLOW_EX + '  File handle assignment error')
-					print(Style.RESET_ALL)
-					time.sleep(0.5)
-					continue
-			except:
-				print(Fore.LIGHTYELLOW_EX + '  File handle error')
-				print(Style.RESET_ALL)
-				time.sleep(0.5)
-				continue
-			try:
-				fh.write(pagetext)
-				fh.close()
-				print(Fore.GREEN + '  Good file')
-				print(Style.RESET_ALL)
-			except:
-				fh.close()
-				print(Fore.LIGHTYELLOW_EX + '  File writing error')
-				print(Style.RESET_ALL)
-				if os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
-					os.remove(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html')
-					time.sleep(1)
-					continue
-				else:
-					time.sleep(1)
-					continue
-			print(Fore.LIGHTGREEN_EX + '  Done')
-			print(Style.RESET_ALL)
-			time.sleep(0.1)
-			break
-		if not os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/' + x[25:] + '.html'):
-			failed_ls.append(x)
-			print(Fore.LIGHTRED_EX + 'FAILED: ' + x[25:])
-			print(Style.RESET_ALL)
-			continue
-	fa = open(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/Failed_list_Part_' + str(partx) + '.txt', 'w')
-	for n in failed_ls:
-		fa.write(str(n) + '\n')
-	return
 	
 # RT_All_Gen1_12_Movie_Page_Sources_HTML
 if not os.path.exists(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/'):
 	os.makedirs(PATH + '/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/')
 
-for i in range(1,26):
-	run4(i)
+
+log2 = open(PATH + '/RT/log_getHTML.txt', 'a')
+
+counter = math.ceil(len(A)/600)
+for i in range(1, counter + 1):
+	getHTML(i)
+
+log2.close()
 
 print(Fore.LIGHTGREEN_EX + 'Process finished')
 print(Style.RESET_ALL)
