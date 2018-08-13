@@ -7,7 +7,7 @@ from lxml import etree
 from time import gmtime, strftime
 PATH = input("Please enter html files' path:")
 if len(PATH) < 1:
-    PATH = "S:/Analytics Clients/Fandango Research/RottenTomatoes work/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/"
+    PATH = "C:/local/RT_All_Gen1_12_Movie_Page_Sources_HTML/"
 start_time = time.clock()
 
 
