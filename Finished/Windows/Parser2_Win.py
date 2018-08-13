@@ -7,7 +7,7 @@ from lxml import etree
 from time import gmtime, strftime
 PATH = input("Please enter html files' path:")
 if len(PATH) < 1:
-    PATH = "C:/local/RT_All_Gen1_12_Movie_Page_Sources_HTML/"
+    PATH = "S:/Analytics Clients/Fandango Research/RottenTomatoes work/RT/RT_All_Gen1_12_Movie_Page_Sources_HTML/"
 start_time = time.clock()
 
 
@@ -174,15 +174,26 @@ def getMovieInfo(List):
 			l.write('User Avg Rating Failed, ')
 
 		try:	#Movie Name
-			if soup.find('span', {'class':'glyphicon glyphicon-play'}):
+			if soup.find('div', {'class':'heroImage movie'}):
 				MovieName = soup.find('h1',{'data-type':'title'}).text.strip()
-			else:
+			elif soup.find('div', {'class':'heroImage movie noCursor'}):
 				MovieName = soup.find('h1',{'data-type':'title'}).text.strip()[:-4]
+			else:
+				MovieName = soup.find('h1',{'data-type':'title'}).text.strip()[:-7]
 		except:
+			MovieName = ''
 			l.write('Movie Name Failed, ')
 			
+		try:	#Franchise
+			if soup.find('div', {'class':'franchiseLink'}):
+				FR = soup.find('div', {'class':'franchiseLink'}).text.strip().replace('View Collection\n\n\n\nView the Collection:\n\n\nPart of the Collection:\n\n\n                                ', '')
+			else:
+				FR = 'No Franchisee'
+		except:
+			FR = None
 			
-		AIA.append(x.replace(PATH, '').replace('.html', '') + '|' + str(MovieName).replace('|', '-') + '|' + str(AS).replace('\n', '').replace('\t', '') + '|' + str(CS).replace('\n', '').replace('\t', '') + '|' + str(CA).replace('\n', " ").replace('\t', ' ') + '|' + str(MI).replace('\n', " ").replace('\t', ' ').replace('|', '-') + '|' + str(ITD).replace('\n\xa0', ' ').replace('\t', '') + '|' + str(ODSD).replace('\t', '') + '|' + str(GE).replace('\n', "").replace('\t', '').replace('|', '-') + '|' + str(ST).replace('\n', " ").replace('\t', ' ') + '|' + str(DB).replace('\n', " ").replace('\t', ' ') + '|' + str(RU).replace('\n', '').replace('\t', ' ') + '|' + str(BO).replace('\n', '').replace('\t', '') + '|' + str(RA).replace('\n', '').replace('\t', ' ').replace('|', '-') + '|' + str(WB).replace('\n', '').replace('\t', ' ') + '|' + str(cavgr).replace('\n', '').replace('\t', '') + '|' + str(uavgr).replace('\n', '').replace('\t', '') + '|' + str(RC).replace('\n', '').replace('\t', '') + '|' + str(UR).replace('\n', '').replace('\t', '') + '|' + str(CR).replace('\n', '').replace('\t', '').replace('|', '-') + '|' + str(AR).replace('\n', '').replace('\t', '').replace('|', '-') + '|' + str(CC).replace('\n', ' ').replace('\t', ' ').replace('|', '-') + '\n')
+			
+		AIA.append(x.replace(PATH, '').replace('.html', '') + '|' + str(MovieName).replace('|', '-') + '|' + str(AS).replace('\n', '').replace('\t', '') + '|' + str(CS).replace('\n', '').replace('\t', '') + '|' + str(CA).replace('\n', " ").replace('\t', ' ') + '|' + str(MI).replace('\n', " ").replace('\t', ' ').replace('|', '-') + '|' + str(ITD).replace('\n\xa0', ' ').replace('\t', '') + '|' + str(ODSD).replace('\t', '') + '|' + str(GE).replace('\n', "").replace('\t', '').replace('|', '-') + '|' + str(ST).replace('\n', " ").replace('\t', ' ') + '|' + str(DB).replace('\n', " ").replace('\t', ' ') + '|' + str(RU).replace('\n', '').replace('\t', ' ') + '|' + str(BO).replace('\n', '').replace('\t', '') + '|' + str(RA).replace('\n', '').replace('\t', ' ').replace('|', '-') + '|' + str(WB).replace('\n', '').replace('\t', ' ') + '|' + str(cavgr).replace('\n', '').replace('\t', '') + '|' + str(uavgr).replace('\n', '').replace('\t', '') + '|' + str(RC).replace('\n', '').replace('\t', '') + '|' + str(UR).replace('\n', '').replace('\t', '') + '|' + str(FR).replace('\n', '').replace('\t', '').replace('|', '-') + '|' + str(CR).replace('\n', '').replace('\t', '').replace('|', '-') + '|' + str(AR).replace('\n', '').replace('\t', '').replace('|', '-') + '|' + str(CC).replace('\n', ' ').replace('\t', ' ').replace('|', '-') + '\n')
 		l.write(' Done \n')
 
 		
@@ -198,7 +209,7 @@ l.close()
 
 
 f = open(PATH + 'RT_' + strftime("%Y-%m-%d_%H-%M-%S") + '.txt', 'w', encoding = 'utf-8')
-f.write('movie_id' + '|' + 'movie_name' + '|' + 'Audience_Score' + '|' + 'Tomatometer' + '|' + 'Cast' + '|' + 'Movie_Summary' + '|' + 'In_Theaters_Release_Date' + '|' + 'On_Disc_Streaming_Date' + '|' + 'Genre' + '|' + 'Studio' + '|' + 'Directed By' + '|' + 'Runtime' + '|' + 'Box Office' + '|' + 'Rating' + '|' + 'Written By' + '|' + 'Critics_AvgRating' + '|' + 'Audience_AvgRating' + '|' + 'Critics_ReviewsCounted' + '|' + 'Audience_ReviewsCounted' + '|' + 'Critics_Reviews' + '|' + 'Audience_Reviews' + '|' + 'Critics_Consensus' + '\n')
+f.write('Movie_ID' + '|' + 'Movie_Name' + '|' + 'Audience_Score' + '|' + 'Tomatometer' + '|' + 'Cast' + '|' + 'Movie_Summary' + '|' + 'In_Theaters_Release_Date' + '|' + 'On_Disc_Streaming_Date' + '|' + 'Genre' + '|' + 'Studio' + '|' + 'Directed By' + '|' + 'Runtime' + '|' + 'Box Office' + '|' + 'Rating' + '|' + 'Written By' + '|' + 'Critics_AvgRating' + '|' + 'Audience_AvgRating' + '|' + 'Critics_ReviewsCounted' + '|' + 'Audience_ReviewsCounted' + '|' + 'Franchise' + '|' + 'Critics_Reviews' + '|' + 'Audience_Reviews' + '|' + 'Critics_Consensus' + '\n')
 
 for x in AIA:
 	f.write(x)
